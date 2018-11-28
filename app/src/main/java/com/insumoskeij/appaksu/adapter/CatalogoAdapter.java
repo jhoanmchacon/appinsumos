@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -17,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.insumoskeij.appaksu.GlideApp;
 import com.insumoskeij.appaksu.R;
 import com.insumoskeij.appaksu.model.Producto;
 
@@ -42,9 +45,7 @@ public class CatalogoAdapter extends RecyclerView.Adapter<CatalogoAdapter.Catalo
 
     @Override
     public CatalogoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View vista = LayoutInflater.from(parent.getContext() ).inflate(R.layout.list_item,parent,false);
-        //View vista = inflater.inflate(R.layout.list_item,parent,false);
         RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         vista.setLayoutParams(layoutParams);
         vista.setOnClickListener(this);
@@ -58,14 +59,9 @@ public class CatalogoAdapter extends RecyclerView.Adapter<CatalogoAdapter.Catalo
 
     @Override
     public void onBindViewHolder(CatalogoHolder holder, int position) {
-        holder.txtMarca.setText(productoList.get(position).getTxtMarca());
-        holder.txtModelo.setText(productoList.get(position).getTxtModelo());
-        holder.txtAnno.setText(productoList.get(position).getTxtAnno());
-       // System.out.println("wwww"+productoList.get(position).getTxtCodigoProd().toString());
-
-
         holder.txtFiltro.setText(productoList.get(position).getTxtCodigoProd());
         holder.txtTipoProd.setText(productoList.get(position).getTxtTipoProd());
+        cargarImagenWebService(productoList.get(position).getRutaImg(),holder);
 
 
 
@@ -105,17 +101,17 @@ public class CatalogoAdapter extends RecyclerView.Adapter<CatalogoAdapter.Catalo
 
     public class CatalogoHolder extends RecyclerView.ViewHolder {
 
-        TextView txtMarca, txtModelo, txtAnno,txtFiltro, txtTipoProd;
+        TextView txtFiltro, txtTipoProd;
         ImageView imgProd;
+        FrameLayout frameLayout;
+        Spinner spinner;
 
         public CatalogoHolder(View itemView) {
             super(itemView);
-            txtMarca=itemView.findViewById(R.id.txtMarca);
-            txtModelo=itemView.findViewById(R.id.txtModelo);
-            txtAnno=itemView.findViewById(R.id.txtAnno);
-           // txtFiltro= itemView.findViewById(R.id.txtCodProd_D);
-            txtTipoProd=itemView.findViewById(R.id.txtTipoProd);
+            txtTipoProd=itemView.findViewById(R.id.txtTipoProd_2);
             imgProd=itemView.findViewById(R.id.imgProd);
+            txtFiltro=itemView.findViewById(R.id.txtCodProd_2);
+            frameLayout=itemView.findViewById(R.id.FormBusquedaFragment);
 
         }
     }

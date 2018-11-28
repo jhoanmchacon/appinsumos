@@ -43,6 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.insumoskeij.appaksu.R.layout.fragment_form_busqueda;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -120,10 +122,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //swipe = findViewById(R.id.swipe_refresh);
-       /* list_view = findViewById(R.id.list_view_2);
+        list_view = findViewById(R.id.list_view);
 
         adapter = new Adapter(this, listData);
-        list_view.setAdapter(adapter);  */
+        list_view.setAdapter(adapter);
 
         /*swipe.setOnRefreshListener(this);
 
@@ -221,12 +223,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void cariData(final String keyword) {
+    public void cariData(final String keyword) {
 
-        list_view = findViewById(R.id.list_view);
 
-        adapter = new Adapter(this, listData);
-        list_view.setAdapter(adapter);
+
         if (fragmentSelecionado == true) {
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.content_main)).commit();
         }
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity
         pDialog.setMessage("Loading...");
         pDialog.show();*/
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, url_cari, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.DEPRECATED_GET_OR_POST, url_cari, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity
                     int value = jObj.getInt(TAG_VALUE);
 
 
-                    if (value == 1) {
+                    if (value > 0) {
                         listData.clear();
                         adapter.notifyDataSetChanged();
 
@@ -256,7 +256,6 @@ public class MainActivity extends AppCompatActivity
                         JSONArray jsonArray = new JSONArray(getObject);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            //System.out.println("res"+obj.getString(TAG_MARCA));
                             Producto data = new Producto();
                             String txtMarca = "";
                             String txtModelo = "";
@@ -276,16 +275,9 @@ public class MainActivity extends AppCompatActivity
                                 txtMarca = txtMarca + obj2.getString(TAG_MARCA);
                                 txtModelo = txtModelo + obj2.getString(TAG_MODELO);
                                 txtMotor = txtMotor + obj2.getString(TAG_MOTOR);
-                                if (!(obj2.getString(TAG_ANNO)==" ")) {
-                                    txtAnno = txtAnno + obj2.getString(TAG_ANNO);
-                                }else {
-                                    txtAnno = "-";
-                                }
-                                if (!(obj2.getString(TAG_KW)==" ")){
-                                    txtHp = txtHp + obj2.getString(TAG_KW);
-                                }else {
-                                    txtHp = "-";
-                                }
+                                txtAnno = txtAnno + obj2.getString(TAG_ANNO);
+                                txtHp = txtHp + obj2.getString(TAG_KW);
+
                             }
 
                             String getObjectoMarcas = obj.getString(TAG_DETALLES_O_MARCAS);
@@ -322,7 +314,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                     } else {
-                        Toast.makeText(getApplicationContext(), jObj.getString(TAG_MESSAGE), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {

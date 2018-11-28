@@ -54,15 +54,12 @@ public class Adapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.list_item, parent, false);
 
-        TextView txt_tipoProd = convertView.findViewById(R.id.txtTipoProd);
+
         TextView txt_tipoProd_2 = convertView.findViewById(R.id.txtTipoProd_2);
-        TextView txt_codProd = convertView.findViewById(R.id.txtCodProd);
         TextView txt_codProd_2 = convertView.findViewById(R.id.txtCodProd_2);
         ImageView imgProd = convertView.findViewById(R.id.imgProd);
 
-        txt_tipoProd.setText(item.get(position).getTxtTipoProd());
         txt_tipoProd_2.setText(item.get(position).getTxtTipoProd());
-        txt_codProd.setText(item.get(position).getTxtCodigoProd());
         txt_codProd_2.setText(item.get(position).getTxtCodigoProd());
 
 
@@ -70,16 +67,6 @@ public class Adapter extends BaseAdapter {
                 .centerCrop()
                 .placeholder(R.drawable.ic_base_camara)
                 .into(imgProd);
-
-
-                txt_codProd.setVisibility(View.VISIBLE);
-                txt_tipoProd.setVisibility(View.VISIBLE);
-                txt_tipoProd_2.setVisibility(View.GONE);
-                txt_codProd_2.setVisibility(View.GONE);
-                txt_tipoProd_2.setVisibility(View.VISIBLE);
-                txt_codProd_2.setVisibility(View.VISIBLE);
-                txt_codProd.setVisibility(View.GONE);
-                txt_tipoProd.setVisibility(View.GONE);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

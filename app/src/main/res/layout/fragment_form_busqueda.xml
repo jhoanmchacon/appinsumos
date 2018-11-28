@@ -34,8 +34,8 @@
         android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/imgLogo"
-            android:theme="@style/AppTheme.AppBarOverlay"
-        >
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:visibility="visible">
 
     </Spinner>
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tipoProductoCombo"
             android:layout_below="@+id/spTipoProducto"
-            />
+            android:visibility="visible"/>
 
         <Spinner
             android:layout_width="match_parent"

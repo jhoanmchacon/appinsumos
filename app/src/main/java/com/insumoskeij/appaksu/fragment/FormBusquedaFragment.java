@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.insumoskeij.appaksu.R.layout.fragment_form_busqueda;
-import static com.insumoskeij.appaksu.R.layout.list_item;
+import com.insumoskeij.appaksu.MainActivity;
 
 
 /**
@@ -79,6 +79,8 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
     String tag_json_obj = "json_obj_req";
     List<Producto> listData = new ArrayList<Producto>();
     ListView list_view;
+
+
 
     Activity activity;
     IcomunicaFragments interfaceComunicaFragments;
@@ -162,7 +164,6 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -271,7 +272,10 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
             @Override
             public void onClick(View view) {
 
-                cariData();
+                /*String url = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto=" + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo + "&motor=" + txtAgregarMotor;
+                Activity activity = new MainActivity();
+                ((MainActivity) activity).cariData("",url,list_view);*/
+                cargarWebService();
             }
         });
 
@@ -287,14 +291,13 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
         pDialog.setMessage("Loading...");
         pDialog.show();*/
 
-        adapter = new Adapter(this.getContext(), listData);
-        list_view.setAdapter(adapter);
+
 
 
 
         String url = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto=" + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo + "&motor=" + txtAgregarMotor;
         System.out.println("vvvvv" + url);
-        StringRequest strReq = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.DEPRECATED_GET_OR_POST, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -450,19 +453,14 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
                 JSONObject jsonObject = null;
                 jsonObject = json.getJSONObject(i);
 
-               /* producto.setTxtMarca(jsonObject.optString("d_marca"));
-                producto.setTxtserie(jsonObject.optString("d_serie"));
-                producto.setTxtModelo(jsonObject.optString("d_modelo"));
-                producto.setTxtAnno(jsonObject.optString("d_desde_hasta"));*/
-                System.out.println("xxxxx " + producto.getTxtTipoProd());
+
                 producto.setTxtCodigoProd(jsonObject.optString("d_codigo"));
-                // System.out.println(producto.getNombreFiltro());
                 producto.setTxtTipoProd(jsonObject.optString("d_tipo_prod"));
                 producto.setTxtDetalle(jsonObject.optString("d_detalles"));
-                // System.out.println(producto.getTipoProd());
                 producto.setRutaImg((jsonObject.optString("d_imagen")));
-                //System.out.println ("image"+producto.getRutaimg());
                 productoList.add(producto);
+
+                System.out.println("xxxxx " + producto.getTxtTipoProd());
 
             }
             progreso.hide();

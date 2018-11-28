@@ -26,7 +26,7 @@ public class DetalleActivity extends AppCompatActivity {
             txtDetalleMedida, tDetalleMedida,
             txtDetallePeso, tDetallePeso,
             txtDetalleVeh, tDetalleVeh,
-            tbMarca, tbModelo, tbanno, tbMotor, tbHP,
+            tbMarca, tbModelo, tbanno, tbMotor,motor, tbHP,hp,
             tbOMarca ,tbOCod;
     View lineaCodBarra,lineaMedida,lineaPeso;
     ImageView imgProd;
@@ -42,12 +42,8 @@ public class DetalleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
         imgProd = findViewById(R.id.imgProd);
-        txtMarca = findViewById(R.id.txtMarca);
-        txtModelo = findViewById(R.id.txtModelo);
-        txtAnno = findViewById(R.id.txtAnno);
-        txtTipoProd = findViewById(R.id.txtTipoProd);
+        //txtTipoProd = findViewById(R.id.txtTipoProd);
         txtCodProd_2 = findViewById(R.id.txtCodProd_D_2);
-        //txtOMarcas = findViewById(R.id.txtDetalles);
         tOMarcas = findViewById(R.id.tOMarcas);
         txtDetalleCodBarra = findViewById(R.id.txtDetallesCodBarra);
         tCodBarra = findViewById(R.id.tCodBarra);
@@ -64,7 +60,9 @@ public class DetalleActivity extends AppCompatActivity {
         tbModelo = findViewById(R.id.tbModelo);
         tbanno = findViewById(R.id.tbAnno);
         tbMotor = findViewById(R.id.tbMotor);
+        motor = findViewById(R.id.motor);
         tbHP = findViewById(R.id.tbHP);
+        hp = findViewById(R.id.HP);
 
         tbOMarca = findViewById(R.id.tbOMarca);
         tbOCod = findViewById(R.id.tbOCod);
@@ -96,7 +94,17 @@ public class DetalleActivity extends AppCompatActivity {
         String Omarcas = i.getExtras().getString("OMARCAS");
         String Ocodigo = i.getExtras().getString("OCODIGO");
 
+        /*if (detalleMotor.trim().length()>0){
+            tbMotor.setVisibility(View.VISIBLE);
+            motor.setVisibility(View.VISIBLE);
+        }*/
 
+        if  (tprod.equals("Limpia Parabrisas")){
+            tbMotor.setVisibility(View.GONE);
+            motor.setVisibility(View.GONE);
+            tbHP.setVisibility(View.GONE);
+            hp.setVisibility(View.GONE);
+        }
 
         if (detalle.trim().length() > 0) {
             tOMarcas.setVisibility(View.VISIBLE);

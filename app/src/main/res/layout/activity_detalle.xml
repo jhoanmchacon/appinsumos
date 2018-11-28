@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context="com.insumoskeij.appaksu.MainActivity">
 
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -75,115 +77,131 @@
                 android:textStyle="bold|italic"
                 android:visibility="visible" />
 
-            <TableLayout
-                android:id="@+id/tbVehiculos"
-                android:layout_width="300dp"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:fillViewport="false">
 
-                <TableRow
+                <TableLayout
+                    android:id="@+id/tbVehiculos"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="fill_horizontal"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp">
 
-                    <TextView
-                        android:id="@+id/marca"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="Marca"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold|italic" />
-
-                    <TextView
-                        android:id="@+id/modelo"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="Modelo"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold|italic" />
-
-                    <TextView
-                        android:id="@+id/motor"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Motor"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold|italic" />
-
-                    <TextView
-                        android:id="@+id/anno"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Años"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold|italic" />
-
-                    <TextView
-                        android:id="@+id/HP"
-                        android:layout_width="28dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="HP"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold|italic" />
-                </TableRow>
-
-                <View
-                    android:layout_height="2dp"
-                    android:background="@color/colorPrimary" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tbMarca"
-                        android:layout_width="90dp"
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Marca" />
+                        android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/tbModelo"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Modelo" />
+                        <TextView
+                            android:id="@+id/marca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Marca"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold|italic" />
 
-                    <TextView
-                        android:id="@+id/tbMotor"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Motor" />
+                        <TextView
+                            android:id="@+id/modelo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Modelo"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold|italic" />
 
-                    <TextView
-                        android:id="@+id/tbAnno"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:text="Años" />
+                        <TextView
+                            android:id="@+id/motor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Motor"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold|italic"
+                            android:visibility="visible"
+                            android:gravity="center"/>
 
-                    <TextView
-                        android:id="@+id/tbHP"
-                        android:layout_width="28dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="HP" />
-                </TableRow>
+                        <TextView
+                            android:id="@+id/anno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Años"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold|italic"
+                            android:paddingLeft="5dp"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/HP"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none"
+                            android:text="HP"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold|italic"
+                            android:visibility="visible"
+                            android:gravity="center"/>
+                    </TableRow>
+
+                    <View
+                        android:layout_height="2dp"
+                        android:background="@color/colorAccent" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tbMarca"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Marca" />
+
+                        <TextView
+                            android:id="@+id/tbModelo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Modelo" />
+
+                        <TextView
+                            android:id="@+id/tbMotor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Motor"
+                            android:visibility="visible"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tbAnno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Años"
+                            android:paddingLeft="5dp"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tbHP"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:text="HP"
+                            android:visibility="visible"
+                            android:gravity="right"/>
+                    </TableRow>
 
 
-            </TableLayout>
+                </TableLayout>
+            </HorizontalScrollView>
 
             <TextView
                 android:id="@+id/tOMarcas"
@@ -223,7 +241,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="Codigo"
+                        android:text="Código"
                         android:textColor="@color/colorPrimary"
                         android:textSize="14sp"
                         android:textStyle="bold|italic" />
@@ -231,7 +249,7 @@
 
                 <View
                     android:layout_height="2dp"
-                    android:background="@color/colorPrimary" />
+                    android:background="@color/colorAccent" />
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -241,13 +259,13 @@
                         android:id="@+id/tbOMarca"
                         android:layout_width="110dp"
                         android:layout_height="wrap_content"
-                        android:text="Marca" />
+                        android:text="oMarca" />
 
                     <TextView
                         android:id="@+id/tbOCod"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Modelo" />
+                        android:text="oCodigo" />
                 </TableRow>
 
 
@@ -269,7 +287,7 @@
                 android:id="@+id/lineaCodBarra"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorAccent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:visibility="gone"/>
@@ -298,7 +316,7 @@
                 android:id="@+id/lineaMedida"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorAccent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:visibility="gone"/>
@@ -328,7 +346,7 @@
                 android:id="@+id/lineaPeso"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorAccent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:visibility="gone"/>
