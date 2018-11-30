@@ -3,14 +3,16 @@ package com.insumoskeij.appaksu;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,16 +20,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,7 +36,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.insumoskeij.appaksu.adapter.Adapter;
@@ -78,22 +78,26 @@ public class MainActivity extends AppCompatActivity
     boolean fragmentSelecionado = false;
 
     /*****Combo TIPO PRODUCTO****/
-    public Spinner spTipoProducto;
+    private Spinner spTipoProducto;
+    private TextView tTipoProdCombo;
     private ArrayList<TipoProducto> TprodList;
     private String txtAgregarTprod = "";
 
     /*****Combo MARCA****/
     private Spinner spMarca;
+    private TextView tMarcaCombo;
     private String txtAgregarMarca = "";
     private ArrayList<Marca> MarcaList;
 
     /*****Combo MODELO****/
     private Spinner spModelo;
+    private TextView tModeloCombo;
     private String txtAgregarModelo = "";
     private ArrayList<Modelo> ModeloList;
 
     /*****Combo MOTOR****/
     private Spinner spMotor;
+    private TextView tMotorCombo;
     private String txtAgregarMotor = "";
     private ArrayList<Motor> MotorList;
 
@@ -147,6 +151,13 @@ public class MainActivity extends AppCompatActivity
        /* Fragment fragment = new FormBusquedaFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).commit();*/
 
+        if (!compruebaConexion(this.getApplicationContext()))
+        {
+            Toast.makeText(getApplicationContext(), ("¡No hay conexión a internet!"), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, NoConnectActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -169,6 +180,8 @@ public class MainActivity extends AppCompatActivity
                        }
                    }
         );*/
+
+
 
         /*****Combo Tipo Producto******/
         spTipoProducto = findViewById(R.id.spTipoProducto);
@@ -200,6 +213,10 @@ public class MainActivity extends AppCompatActivity
                 MotorList.clear();
                 if (!txtAgregarMarca.isEmpty()) {
                     new GetModelo().execute();
+
+                    tModeloCombo = findViewById(R.id.tModeloCombo);
+                    spModelo.setVisibility(View.VISIBLE);
+                    tModeloCombo.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -221,6 +238,11 @@ public class MainActivity extends AppCompatActivity
                 MotorList.clear();
                 if (!txtAgregarModelo.isEmpty()) {
                     new GetMotor().execute();
+
+                    tMotorCombo = findViewById(R.id.tMotorCombo);
+                    spMotor.setVisibility(View.VISIBLE);
+                    tMotorCombo.setVisibility(View.VISIBLE);
+
                 }
             }
 
@@ -265,6 +287,25 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+    private boolean compruebaConexion(Context applicationContext) {
+
+        boolean connected = false;
+        ConnectivityManager connec = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+
+    }
+
     /*************CARGANDO COMBO TIPO PRODUCTO**************************************************************************************/
     private void cargarTproducto() {
         List<String> lables = new ArrayList<String>();
@@ -273,7 +314,7 @@ public class MainActivity extends AppCompatActivity
             lables.add(TprodList.get(i).getTipoProduto());
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item, lables);
+                R.layout.spinner_style, lables);
         spinnerAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spTipoProducto.setAdapter(spinnerAdapter);
@@ -304,7 +345,7 @@ public class MainActivity extends AppCompatActivity
                         for (int i = 0; i < frutas.length(); i++) {
                             JSONObject catObj = (JSONObject) frutas.get(i);
                             //System.out.println(catObj);
-                            TipoProducto cat = new TipoProducto(catObj.getString("id"), catObj.getString("desc"));
+                            TipoProducto cat = new TipoProducto (catObj.getString("id"), catObj.getString("desc"));
 
                             TprodList.add(cat);
                         }
@@ -321,8 +362,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-                /*if (progreso.isShowing())
-                    progreso.dismiss();*/
+
             cargarTproducto();
         }
     }
@@ -335,7 +375,7 @@ public class MainActivity extends AppCompatActivity
             lables.add(MarcaList.get(i).getNombre_marca());
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item, lables);
+                R.layout.spinner_style, lables);
         spinnerAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spMarca.setAdapter(spinnerAdapter);
@@ -345,10 +385,10 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-              /*  progreso = new ProgressDialog(getContext());
-                progreso.setMessage("Cargando compbos..");
-                progreso.setCancelable(false);
-                progreso.show();*/
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setCancelable(false);
+            pDialog.setMessage("Cargando...");
+            pDialog.show();
         }
 
         @Override
@@ -361,12 +401,17 @@ public class MainActivity extends AppCompatActivity
                 try {
                     JSONObject jsonObj = new JSONObject(json);
                     if (jsonObj != null) {
-                        JSONArray frutas = jsonObj.getJSONArray("data");
-
-                        for (int i = 0; i < frutas.length(); i++) {
-                            JSONObject catObj = (JSONObject) frutas.get(i);
+                        JSONArray marca = jsonObj.getJSONArray("data");
+                        int i = 0;
+                        for ( i = 0; i < marca.length(); i++) {
+                            JSONObject catObj = (JSONObject) marca.get(i);
                             //System.out.println(catObj);
                             Marca cat = new Marca(catObj.getString("id"), catObj.getString("desc"));
+                            //System.out.println(cat);
+                            MarcaList.add(cat);
+                        }
+                        if (i==0){
+                            Marca cat = new Marca(" ", "no se");
                             //System.out.println(cat);
                             MarcaList.add(cat);
                         }
@@ -383,6 +428,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            pDialog.dismiss();
                 /*if (progreso.isShowing())
                     progreso.dismiss();*/
             cargarComboMarca();
@@ -397,7 +443,7 @@ public class MainActivity extends AppCompatActivity
             lables.add(ModeloList.get(i).getNombre_modelo());
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item, lables);
+                R.layout.spinner_style, lables);
         spinnerAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spModelo.setAdapter(spinnerAdapter);
@@ -422,13 +468,18 @@ public class MainActivity extends AppCompatActivity
             if (json != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null) {
-                        JSONArray frutas = jsonObj.getJSONArray("data");
-
-                        for (int i = 0; i < frutas.length(); i++) {
-                            JSONObject catObj = (JSONObject) frutas.get(i);
+                    if (jsonObj != null ) {
+                        JSONArray modelos = jsonObj.getJSONArray("data");
+                        int i = 0;
+                        for ( i = 0; i < modelos.length(); i++) {
+                            JSONObject catObj = (JSONObject) modelos.get(i);
                             //System.out.println(catObj);
                             Modelo cat = new Modelo(catObj.getString("id"), catObj.getString("desc"));
+                            //System.out.println(cat);
+                            ModeloList.add(cat);
+                        }
+                        if (i==0){
+                            Modelo cat = new Modelo(" ", "no se");
                             //System.out.println(cat);
                             ModeloList.add(cat);
                         }
@@ -459,7 +510,7 @@ public class MainActivity extends AppCompatActivity
             lables.add(MotorList.get(i).getNombre_motor());
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item, lables);
+                R.layout.spinner_style, lables);
         spinnerAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spMotor.setAdapter(spinnerAdapter);
@@ -484,10 +535,10 @@ public class MainActivity extends AppCompatActivity
                 try {
                     JSONObject jsonObj = new JSONObject(json);
                     if (jsonObj != null) {
-                        JSONArray frutas = jsonObj.getJSONArray("data");
+                        JSONArray motor = jsonObj.getJSONArray("data");
 
-                        for (int i = 0; i < frutas.length(); i++) {
-                            JSONObject catObj = (JSONObject) frutas.get(i);
+                        for (int i = 0; i < motor.length(); i++) {
+                            JSONObject catObj = (JSONObject) motor.get(i);
                             //System.out.println(catObj);
                             Motor cat = new Motor(catObj.getString("id"), catObj.getString("desc"));
                             //System.out.println(cat);
@@ -516,17 +567,32 @@ public class MainActivity extends AppCompatActivity
 
 
     private void callData() {
+        tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
+        tMarcaCombo = findViewById(R.id.tMarcaCombo);
+
+        tTipoProdCombo.setVisibility(View.GONE);
         spTipoProducto.setVisibility(View.GONE);
+        tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
+        tModeloCombo.setVisibility(View.GONE);
         spModelo.setVisibility(View.GONE);
-        spMotor.setVisibility(View.GONE);
-        spTipoProducto.setVisibility(View.GONE);
+
+        if (spModelo.getVisibility()==View.VISIBLE ){
+            tModeloCombo.setVisibility(View.GONE);
+            spModelo.setVisibility(View.GONE);
+        }
+
+        if (spMotor.getVisibility()==View.VISIBLE){
+            tMotorCombo.setVisibility(View.GONE);
+            spMotor.setVisibility(View.GONE);
+        }
+
         btnBuscar.setVisibility(View.GONE);
         list_view.setVisibility(View.VISIBLE);
 
         pDialog = new ProgressDialog(MainActivity.this);
         pDialog.setCancelable(false);
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Cargando...");
         pDialog.show();
 
         String url_data = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto=" + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo + "&motor=" + txtAgregarMotor;
@@ -669,18 +735,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void cariData(final String keyword) {
+        tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
+        tMarcaCombo = findViewById(R.id.tMarcaCombo);
 
-
+        tTipoProdCombo.setVisibility(View.GONE);
         spTipoProducto.setVisibility(View.GONE);
+        tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
-        spModelo.setVisibility(View.GONE);
-        spMotor.setVisibility(View.GONE);
-        spTipoProducto.setVisibility(View.GONE);
+
+        if (spModelo.getVisibility()==View.VISIBLE ){
+            tModeloCombo.setVisibility(View.GONE);
+            spModelo.setVisibility(View.GONE);
+        }
+
+        if (spMotor.getVisibility()==View.VISIBLE){
+            tMotorCombo.setVisibility(View.GONE);
+            spMotor.setVisibility(View.GONE);
+        }
+
         btnBuscar.setVisibility(View.GONE);
 
         pDialog = new ProgressDialog(MainActivity.this);
         pDialog.setCancelable(false);
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Cargando...");
         pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.POST, url_cari, new Response.Listener<String>() {
@@ -757,7 +834,7 @@ public class MainActivity extends AppCompatActivity
                             data.setTxtDetalleMedida(obj.getString(TAG_DETALLESMEDIDA));
                             data.setTxtDetallePeso(obj.getString(TAG_DETALLESPESO));
                             listData.add(data);
-
+                            pDialog.dismiss();
                         }
 
                     } else {
@@ -776,7 +853,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 adapter.notifyDataSetChanged();
-                 pDialog.dismiss();
+
             }
         }, new Response.ErrorListener() {
 
@@ -839,16 +916,30 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.BusquedaPersonalisada) {
             new GetTproducto().execute();
             new GetMarca().execute();
-            new GetModelo().execute();
-            new GetMotor().execute();
+            tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
+            tMarcaCombo = findViewById(R.id.tMarcaCombo);
 
+            tTipoProdCombo.setVisibility(View.VISIBLE);
             spTipoProducto.setVisibility(View.VISIBLE);
+            tMarcaCombo.setVisibility(View.VISIBLE);
             spMarca.setVisibility(View.VISIBLE);
-            spModelo.setVisibility(View.VISIBLE);
-            spMotor.setVisibility(View.VISIBLE);
-            spTipoProducto.setVisibility(View.VISIBLE);
+
+            if (spModelo.getVisibility()==View.VISIBLE ){
+                tModeloCombo.setVisibility(View.GONE);
+                spModelo.setVisibility(View.GONE);
+            }
+
+            if (spMotor.getVisibility()==View.VISIBLE){
+                tMotorCombo.setVisibility(View.GONE);
+                spMotor.setVisibility(View.GONE);
+            }
             btnBuscar.setVisibility(View.VISIBLE);
             list_view.setVisibility(View.GONE);
+
+            spModelo.setVisibility(View.GONE);
+            spMotor.setVisibility(View.GONE);
+//            tModeloCombo.setVisibility(View.GONE);
+  //          tMotorCombo.setVisibility(View.GONE);
         }else if (id == R.id.Ajustes) {
             /////////////////Ajustes////////////
         }

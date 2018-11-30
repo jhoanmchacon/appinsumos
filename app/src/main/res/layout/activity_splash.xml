@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity"
     android:orientation="vertical"
-    android:background="@drawable/side_nav_bar">
-    
-    <ImageView
+    android:gravity="center_horizontal|center_vertical"
+    android:background="#000">
+
+    <!--<ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/aksu_icon"
         android:id="@+id/aksuLogo"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        />
-    
+        />-->
+    <VideoView
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+
+</LinearLayout>

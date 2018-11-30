@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_no_connect"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NoConnectActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="50dp"
+        android:src="@drawable/noconnect" />
+
+    <Button
+
+        android:id="@+id/btnReintentar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#ffff"
+        android:text="Reintentar"
+        android:textColor="#2f7635"
+        android:textSize="18dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true">
+
+    </Button>
+
+</LinearLayout>

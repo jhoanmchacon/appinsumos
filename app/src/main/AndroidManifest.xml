@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.insumoskeij.appaksu">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -28,10 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ImagenDetalle"></activity>
-        <activity
-            android:name=".DetalleActivity"></activity>
+        <activity android:name=".ImagenDetalle" />
+        <activity android:name=".DetalleActivity" />
+        <activity android:name=".NoConnectActivity"></activity>
     </application>
 
 </manifest>

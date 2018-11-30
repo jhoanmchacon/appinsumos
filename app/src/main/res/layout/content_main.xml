@@ -30,114 +30,122 @@
             android:layout_margin="10dp"></ImageView>
 
         <TextView
-            android:id="@+id/TtipoProdCombo"
+            android:id="@+id/tTipoProdCombo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgLogo"
-            android:visibility="visible"
             android:layout_marginLeft="10dp"
             android:text="TIPO PRODUCTO"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            android:visibility="visible" />
 
         <Spinner
             android:id="@+id/spTipoProducto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TtipoProdCombo"
+            android:layout_below="@+id/tTipoProdCombo"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
+            android:prompt="@string/hint_tProd"
+            android:spinnerMode="dropdown"
             android:theme="@style/AppTheme.AppBarOverlay"
             android:visibility="visible">
 
         </Spinner>
 
         <TextView
-            android:id="@+id/TMarcaCombo"
+            android:id="@+id/tMarcaCombo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spTipoProducto"
-            android:visibility="visible"
             android:layout_marginLeft="10dp"
             android:text="MARCA"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            android:visibility="visible" />
 
 
         <Spinner
             android:id="@+id/spMarca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TMarcaCombo"
+            android:layout_below="@+id/tMarcaCombo"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:spinnerMode="dialog"
-            android:prompt="@string/hint_resource">
+            android:prompt="@string/hint_Marca"
+            android:spinnerMode="dropdown"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
         </Spinner>
 
         <TextView
-            android:id="@+id/TModeloCombo"
+            android:id="@+id/tModeloCombo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spMarca"
-            android:visibility="visible"
             android:layout_marginLeft="10dp"
             android:text="MODELO"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            android:visibility="gone" />
 
         <Spinner
             android:id="@+id/spModelo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TModeloCombo"
+            android:layout_below="@+id/tModeloCombo"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:prompt="@string/hint_Modelo"
+            android:spinnerMode="dropdown"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:visibility="gone">
 
         </Spinner>
 
         <TextView
-            android:id="@+id/TMotorCombo"
+            android:id="@+id/tMotorCombo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spModelo"
-            android:visibility="visible"
             android:layout_marginLeft="10dp"
             android:text="MOTOR"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            android:visibility="gone" />
 
         <Spinner
             android:id="@+id/spMotor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/TMotorCombo"
+            android:layout_below="@+id/tMotorCombo"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:prompt="@string/hint_Motor"
+            android:spinnerMode="dropdown"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:visibility="gone">
 
         </Spinner>
 
-       <Button
+        <Button
 
             android:id="@+id/btnBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:background="#ffff"
             android:text="Buscar"
             android:textColor="#2f7635"
-            android:textSize="18dp"
-            android:layout_marginBottom="15dp"
-            android:layout_alignParentBottom="true">
+            android:textSize="18dp">
 
         </Button>
 
