@@ -85,12 +85,12 @@
                 <TableLayout
                     android:id="@+id/tbVehiculos"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="fill_horizontal"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_gravity="fill_horizontal"
-                    android:paddingRight="5dp"
-                    android:paddingLeft="5dp">
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp">
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -122,36 +122,36 @@
                             android:id="@+id/motor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:paddingLeft="5dp"
                             android:text="Motor"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14sp"
                             android:textStyle="bold|italic"
-                            android:visibility="visible"
-                            android:gravity="center"/>
+                            android:visibility="visible" />
 
                         <TextView
                             android:id="@+id/anno"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingLeft="5dp"
                             android:text="Años"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14sp"
-                            android:textStyle="bold|italic"
-                            android:paddingLeft="5dp"
-                            android:gravity="center"/>
+                            android:textStyle="bold|italic" />
 
                         <TextView
                             android:id="@+id/HP"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:scrollbars="none"
                             android:text="HP"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14sp"
                             android:textStyle="bold|italic"
-                            android:visibility="visible"
-                            android:gravity="center"/>
+                            android:visibility="visible" />
                     </TableRow>
 
                     <View
@@ -178,25 +178,25 @@
                             android:id="@+id/tbMotor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="Motor"
-                            android:visibility="visible"
-                            android:gravity="center"/>
+                            android:visibility="visible" />
 
                         <TextView
                             android:id="@+id/tbAnno"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Años"
+                            android:gravity="center"
                             android:paddingLeft="5dp"
-                            android:gravity="center"/>
+                            android:text="Años" />
 
                         <TextView
                             android:id="@+id/tbHP"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
                             android:text="HP"
-                            android:visibility="visible"
-                            android:gravity="right"/>
+                            android:visibility="visible" />
                     </TableRow>
 
 

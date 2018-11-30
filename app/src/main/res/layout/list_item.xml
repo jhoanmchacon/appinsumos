@@ -4,13 +4,17 @@
     android:layout_height="wrap_content"
     android:background="@android:drawable/editbox_background_normal"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:id="@+id/list_item"
+    android:visibility="visible">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/imgProd"
@@ -18,7 +22,8 @@
             android:layout_height="100dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:visibility="visible"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".8"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:visibility="visible"/>
 
 
             <LinearLayout
@@ -47,7 +53,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="40"
                     android:text="nombreVeh "
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="visible"/>
 
             </LinearLayout>
         </LinearLayout>

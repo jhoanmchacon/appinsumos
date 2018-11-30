@@ -99,7 +99,7 @@ public class DetalleActivity extends AppCompatActivity {
             motor.setVisibility(View.VISIBLE);
         }*/
 
-        if  (tprod.equals("Limpia Parabrisas")){
+        if  (tprod.equals("Limpia Parabrisas")|| tprod.equals("Iluminación")){
             tbMotor.setVisibility(View.GONE);
             motor.setVisibility(View.GONE);
             tbHP.setVisibility(View.GONE);

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.insumoskeij.appaksu.R.layout.fragment_form_busqueda;
-import com.insumoskeij.appaksu.MainActivity;
+import static com.insumoskeij.appaksu.R.layout.list_item;
 
 
 /**
@@ -72,12 +73,11 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
     private OnFragmentInteractionListener mListener;
 
     RecyclerView recyclerCatalogo;
-    ArrayList<Producto> productoList;
+    ArrayList<Producto> listData;
     Button btnBuscar;
 
     Adapter adapter;
     String tag_json_obj = "json_obj_req";
-    List<Producto> listData = new ArrayList<Producto>();
     ListView list_view;
 
 
@@ -172,9 +172,6 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
         // Inflate the layout for this fragment
         View vista = inflater.inflate(fragment_form_busqueda, container, false);
 
-        list_view = vista.findViewById(R.id.list_view);
-
-        productoList = new ArrayList<>();
         /*****Cargar valor pais/idioma******/
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -393,7 +390,7 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
                 }
 
 
-                 adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
                 // pDialog.dismiss();
             }
@@ -416,13 +413,13 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
     private void cargarWebService() {
 
 
-        //getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.content_main)).commit();
+
 
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Consultando...");
         progreso.show();
 
-        productoList.clear();
+        listData.clear();
         //String url ="http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?&pais="+idPais+"&buscar="+campoBusqueda.getText().toString();
         String url = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto=" + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo + "&motor=" + txtAgregarMotor;
         System.out.println("urlll " + url);
@@ -458,25 +455,24 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
                 producto.setTxtTipoProd(jsonObject.optString("d_tipo_prod"));
                 producto.setTxtDetalle(jsonObject.optString("d_detalles"));
                 producto.setRutaImg((jsonObject.optString("d_imagen")));
-                productoList.add(producto);
+                listData.add(producto);
 
-                System.out.println("xxxxx " + producto.getTxtTipoProd());
+                //System.out.println("xxxxx " + producto.getTxtTipoProd());
 
             }
             progreso.hide();
-            CatalogoAdapter adapter = new CatalogoAdapter(productoList, this.activity);
+            CatalogoAdapter adapter=new CatalogoAdapter(listData, getContext());
             recyclerCatalogo.setAdapter(adapter);
 
-
-            adapter.setOnClickListener(new View.OnClickListener() {
+            /*adapter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "selecciono: " + productoList.get(recyclerCatalogo.getChildAdapterPosition(view)).
+                    Toast.makeText(getContext(), "selecciono: " + listData.get(recyclerCatalogo.getChildAdapterPosition(view)).
                             getTxtCodigoProd(), Toast.LENGTH_SHORT).show();
 
                     //interfaceComunicaFragments.enviarProducto(catalogoList.get(recyclerCatalogo.getChildAdapterPosition(view)));
                 }
-            });
+            });*/
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -485,7 +481,7 @@ public class FormBusquedaFragment extends Fragment implements Response.Listener<
             progreso.hide();
         }
 
-        //getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.content_main)).commit();
+       // getFragmentManager().beginTransaction().remove(this).commit();
 
     }
 

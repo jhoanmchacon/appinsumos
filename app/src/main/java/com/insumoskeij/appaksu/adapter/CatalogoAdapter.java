@@ -5,6 +5,8 @@ package com.insumoskeij.appaksu.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.transition.FragmentTransitionSupport;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +37,11 @@ public class CatalogoAdapter extends RecyclerView.Adapter<CatalogoAdapter.Catalo
 
     private LayoutInflater inflater;
 
-    public CatalogoAdapter(List<Producto> productoList, Activity activity){
+    public CatalogoAdapter(List<Producto> productoList, Context context){
         this.productoList = productoList;
-        this.activity=activity;
+        this.context=context;
 
-        request= Volley.newRequestQueue(activity);
+        request= Volley.newRequestQueue(context);
     }
 
 
@@ -111,7 +113,6 @@ public class CatalogoAdapter extends RecyclerView.Adapter<CatalogoAdapter.Catalo
             txtTipoProd=itemView.findViewById(R.id.txtTipoProd_2);
             imgProd=itemView.findViewById(R.id.imgProd);
             txtFiltro=itemView.findViewById(R.id.txtCodProd_2);
-            frameLayout=itemView.findViewById(R.id.FormBusquedaFragment);
 
         }
     }

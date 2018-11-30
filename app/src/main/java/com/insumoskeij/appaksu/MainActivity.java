@@ -1,9 +1,11 @@
 package com.insumoskeij.appaksu;
 
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,23 +18,35 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.insumoskeij.appaksu.adapter.Adapter;
 import com.insumoskeij.appaksu.app.AppController;
 import com.insumoskeij.appaksu.fragment.FormBusquedaFragment;
 import com.insumoskeij.appaksu.interfaces.IcomunicaFragments;
+import com.insumoskeij.appaksu.model.Marca;
+import com.insumoskeij.appaksu.model.Modelo;
+import com.insumoskeij.appaksu.model.Motor;
 import com.insumoskeij.appaksu.model.Producto;
+import com.insumoskeij.appaksu.model.TipoProducto;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,8 +56,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.insumoskeij.appaksu.R.layout.fragment_form_busqueda;
 
 
 public class MainActivity extends AppCompatActivity
@@ -60,9 +72,32 @@ public class MainActivity extends AppCompatActivity
     ListView list_view;
     String tag_json_obj = "json_obj_req";
 
+    Button btnBuscar;
+    RequestQueue request;
+
     boolean fragmentSelecionado = false;
 
-    public static final String url_data = "http://aksuglobal.com/catalogo_aksu/aksuapp/prueba/datos.php";
+    /*****Combo TIPO PRODUCTO****/
+    public Spinner spTipoProducto;
+    private ArrayList<TipoProducto> TprodList;
+    private String txtAgregarTprod = "";
+
+    /*****Combo MARCA****/
+    private Spinner spMarca;
+    private String txtAgregarMarca = "";
+    private ArrayList<Marca> MarcaList;
+
+    /*****Combo MODELO****/
+    private Spinner spModelo;
+    private String txtAgregarModelo = "";
+    private ArrayList<Modelo> ModeloList;
+
+    /*****Combo MOTOR****/
+    private Spinner spMotor;
+    private String txtAgregarMotor = "";
+    private ArrayList<Motor> MotorList;
+
+    public String url_data = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto=" + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo + "&motor=" + txtAgregarMotor;
     public static final String url_cari = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1";
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -86,11 +121,6 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG_VALUE = "value";
     public static final  String TAG_DETALLE_O_MARCA = "r_desc_marca_prod";
     public static final  String TAG_DETALLE_O_COD = "r_cod_prod_marca";
-    /*public static final  String TAG_DETALLEMODELO = "d_detallesVehiculosModelo";
-    public static final  String TAG_DETALLEANNO = "d_detallesVehiculosAnno";
-    public static final  String TAG_DETALLEMOTOR = "d_detallesVehiculosMotor";
-    public static final  String TAG_DETALLEHP = "d_detallesVehiculosHP";*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,14 +144,16 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        Fragment fragment = new FormBusquedaFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).commit();
+       /* Fragment fragment = new FormBusquedaFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).commit();*/
 
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //swipe = findViewById(R.id.swipe_refresh);
+
+
         list_view = findViewById(R.id.list_view);
 
         adapter = new Adapter(this, listData);
@@ -138,109 +170,376 @@ public class MainActivity extends AppCompatActivity
                    }
         );*/
 
-    }
+        /*****Combo Tipo Producto******/
+        spTipoProducto = findViewById(R.id.spTipoProducto);
+        TprodList = new ArrayList<TipoProducto>();
 
-    private void callData() {
-        listData.clear();
-        adapter.notifyDataSetChanged();
-        swipe.setRefreshing(true);
-
-        // Creating volley request obj
-        JsonArrayRequest jArr = new JsonArrayRequest(url_data, new Response.Listener<JSONArray>() {
-
+        spTipoProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onResponse(JSONArray response) {
-                Log.e(TAG, response.toString());
-
-                // Parsing json
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject obj = response.getJSONObject(i);
-
-                        Producto item = new Producto();
-
-                        item.setTxtMarca(obj.getString(TAG_MARCA));
-                        item.setTxtModelo(obj.getString(TAG_MODELO));
-                        item.setTxtMotor(obj.getString(TAG_MOTOR));
-                        item.setTxtKwPotencia(obj.getString(TAG_KW));
-                        item.setTxtAnno(obj.getString(TAG_ANNO));
-                        item.setTxtTipoProd(obj.getString(TAG_TIPO_PROD));
-                        item.setTxtCodigoProd(obj.getString(TAG_CODIGO));
-                        item.setRutaImg(obj.getString(TAG_RUTA_IMG));
-                        item.setTxtDetalle(obj.getString(TAG_DETALLES_O_MARCAS));
-
-                        listData.add(item);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                // notifying list adapter about data changes
-                // so that it renders the list view with updated data
-                adapter.notifyDataSetChanged();
-                swipe.setRefreshing(false);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                txtAgregarTprod = TprodList.get(i).getIdTipoProducto();
             }
-        }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                swipe.setRefreshing(false);
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jArr);
+        new GetTproducto().execute();
+
+        /*****Combo Marca******/
+        spMarca = findViewById(R.id.spMarca);
+        MarcaList = new ArrayList<Marca>();
+
+        spMarca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                txtAgregarMarca = MarcaList.get(i).getId_marca();
+                ModeloList.clear();
+                MotorList.clear();
+                if (!txtAgregarMarca.isEmpty()) {
+                    new GetModelo().execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        new GetMarca().execute();
+
+        /****COMBO MODELO***/
+        spModelo = findViewById(R.id.spModelo);
+        ModeloList = new ArrayList<Modelo>();
+
+        spModelo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                txtAgregarModelo = ModeloList.get(i).getId_modelo();
+                MotorList.clear();
+                if (!txtAgregarModelo.isEmpty()) {
+                    new GetMotor().execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        /****COMBO MOTOR***/
+        spMotor = findViewById(R.id.spMotor);
+        MotorList = new ArrayList<Motor>();
+
+        spMotor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                txtAgregarMotor = MotorList.get(i).getId_motor();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        btnBuscar = findViewById(R.id.btnBuscar);
+        request = Volley.newRequestQueue(MainActivity.this);
+
+
+        btnBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (txtAgregarMarca.isEmpty() && txtAgregarTprod.isEmpty()){
+                    Toast.makeText(getApplicationContext(), ("¡Debe seleccionar una opción para la búsqueda!"), Toast.LENGTH_SHORT).show();
+
+                }else {
+                    callData();
+                }
+            }
+        });
+
+    }
+    /*************CARGANDO COMBO TIPO PRODUCTO**************************************************************************************/
+    private void cargarTproducto() {
+        List<String> lables = new ArrayList<String>();
+        //txtAgregarTprod.setText("");
+        for (int i = 0; i < TprodList.size(); i++) {
+            lables.add(TprodList.get(i).getTipoProduto());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item, lables);
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTipoProducto.setAdapter(spinnerAdapter);
     }
 
-    @Override
-    public void onRefresh() {
-        //callData();
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        cariData(query);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-
-        getMenuInflater().inflate(R.menu.main, menu);
-        final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint(getString(R.string.Buscar));
-        searchView.setIconified(true);
-        searchView.setOnQueryTextListener(this);
-
-        return true;
-    }
-
-    public void cariData(final String keyword) {
-
-
-
-        if (fragmentSelecionado == true) {
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.content_main)).commit();
+    private class GetTproducto extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+              /*  progreso = new ProgressDialog(getContext());
+                progreso.setMessage("Cargando compbos..");
+                progreso.setCancelable(false);
+                progreso.show();*/
         }
 
-        /*pDialog = new ProgressDialog(MainActivity.this);
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            //String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMTipoProducto.php?opc="+idIdioma, ServiceHandler.GET);
+            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMTipoProducto.php?opc=1", ServiceHandler.GET);
+            Log.e("Response: ", "> " + json);
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray frutas = jsonObj.getJSONArray("data");
+
+                        for (int i = 0; i < frutas.length(); i++) {
+                            JSONObject catObj = (JSONObject) frutas.get(i);
+                            //System.out.println(catObj);
+                            TipoProducto cat = new TipoProducto(catObj.getString("id"), catObj.getString("desc"));
+
+                            TprodList.add(cat);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+                /*if (progreso.isShowing())
+                    progreso.dismiss();*/
+            cargarTproducto();
+        }
+    }
+    /**************FIN CARGA DE COMBO TIPO PRODUCTO***********************************************************************************/
+
+    /*************CARGANDO COMBO MARCA**************************************************************************************/
+    private void cargarComboMarca() {
+        List<String> lables = new ArrayList<String>();
+        for (int i = 0; i < MarcaList.size(); i++) {
+            lables.add(MarcaList.get(i).getNombre_marca());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item, lables);
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spMarca.setAdapter(spinnerAdapter);
+    }
+
+    private class GetMarca extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+              /*  progreso = new ProgressDialog(getContext());
+                progreso.setMessage("Cargando compbos..");
+                progreso.setCancelable(false);
+                progreso.show();*/
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            //String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMMarca.php?opc="+idIdioma+"&pais="+idPais+"", ServiceHandler.GET);
+            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMMarca.php?opc=1&pais=1", ServiceHandler.GET);
+            Log.e("Response: ", "> " + json);
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray frutas = jsonObj.getJSONArray("data");
+
+                        for (int i = 0; i < frutas.length(); i++) {
+                            JSONObject catObj = (JSONObject) frutas.get(i);
+                            //System.out.println(catObj);
+                            Marca cat = new Marca(catObj.getString("id"), catObj.getString("desc"));
+                            //System.out.println(cat);
+                            MarcaList.add(cat);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+                /*if (progreso.isShowing())
+                    progreso.dismiss();*/
+            cargarComboMarca();
+        }
+    }
+    /**************FIN CARGA DE MARCA***********************************************************************************/
+
+    /*************CARGANDO COMBO MODELO**************************************************************************************/
+    private void cargarComboModelo() {
+        List<String> lables = new ArrayList<String>();
+        for (int i = 0; i < ModeloList.size(); i++) {
+            lables.add(ModeloList.get(i).getNombre_modelo());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item, lables);
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spModelo.setAdapter(spinnerAdapter);
+    }
+
+    private class GetModelo extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+              /*  progreso = new ProgressDialog(getContext());
+                progreso.setMessage("Cargando compbos..");
+                progreso.setCancelable(false);
+                progreso.show();*/
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22", ServiceHandler.GET);
+            System.out.println("urlllll" + "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22");
+            Log.e("Response: ", "> " + json);
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray frutas = jsonObj.getJSONArray("data");
+
+                        for (int i = 0; i < frutas.length(); i++) {
+                            JSONObject catObj = (JSONObject) frutas.get(i);
+                            //System.out.println(catObj);
+                            Modelo cat = new Modelo(catObj.getString("id"), catObj.getString("desc"));
+                            //System.out.println(cat);
+                            ModeloList.add(cat);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+                /*if (progreso.isShowing())
+                    progreso.dismiss();*/
+            cargarComboModelo();
+        }
+    }
+    /**************FIN CARGA DE MODELO***********************************************************************************/
+
+    /*************CARGANDO COMBO MOTOR**************************************************************************************/
+    private void cargarComboMotor() {
+        List<String> lables = new ArrayList<String>();
+        for (int i = 0; i < MotorList.size(); i++) {
+            lables.add(MotorList.get(i).getNombre_motor());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item, lables);
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spMotor.setAdapter(spinnerAdapter);
+    }
+
+    private class GetMotor extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+              /*  progreso = new ProgressDialog(getContext());
+                progreso.setMessage("Cargando compbos..");
+                progreso.setCancelable(false);
+                progreso.show();*/
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMMotor.php?opc=1&modelo=" + txtAgregarModelo, ServiceHandler.GET);
+            Log.e("Response: ", "> " + json);
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null) {
+                        JSONArray frutas = jsonObj.getJSONArray("data");
+
+                        for (int i = 0; i < frutas.length(); i++) {
+                            JSONObject catObj = (JSONObject) frutas.get(i);
+                            //System.out.println(catObj);
+                            Motor cat = new Motor(catObj.getString("id"), catObj.getString("desc"));
+                            //System.out.println(cat);
+                            MotorList.add(cat);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+                /*if (progreso.isShowing())
+                    progreso.dismiss();*/
+            cargarComboMotor();
+        }
+    }
+
+    /**************FIN CARGA DE MOTOR***********************************************************************************/
+
+
+    private void callData() {
+        spTipoProducto.setVisibility(View.GONE);
+        spMarca.setVisibility(View.GONE);
+        spModelo.setVisibility(View.GONE);
+        spMotor.setVisibility(View.GONE);
+        spTipoProducto.setVisibility(View.GONE);
+        btnBuscar.setVisibility(View.GONE);
+        list_view.setVisibility(View.VISIBLE);
+
+        pDialog = new ProgressDialog(MainActivity.this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading...");
-        pDialog.show();*/
+        pDialog.show();
 
-        StringRequest strReq = new StringRequest(Request.Method.DEPRECATED_GET_OR_POST, url_cari, new Response.Listener<String>() {
+        String url_data = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto=" + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo + "&motor=" + txtAgregarMotor;
+        listData.clear();
+        adapter.notifyDataSetChanged();
+       // swipe.setRefreshing(true);
+
+        // Creating volley request obj
+        StringRequest strReq = new StringRequest(Request.Method.GET, url_data, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.e("Response: ", response.toString());
+                Log.e("Response: ", response);
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -323,7 +622,161 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 adapter.notifyDataSetChanged();
-                // pDialog.dismiss();
+                 pDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e(TAG, "Error: " + error.getMessage());
+                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+               //swipe.setRefreshing(false);
+                pDialog.dismiss();
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_json_obj);
+    }
+
+    @Override
+    public void onRefresh() {
+        //callData();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        cariData(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint(getString(R.string.Buscar));
+        searchView.setIconified(true);
+        searchView.setOnQueryTextListener(this);
+
+        return true;
+    }
+
+    public void cariData(final String keyword) {
+
+
+        spTipoProducto.setVisibility(View.GONE);
+        spMarca.setVisibility(View.GONE);
+        spModelo.setVisibility(View.GONE);
+        spMotor.setVisibility(View.GONE);
+        spTipoProducto.setVisibility(View.GONE);
+        btnBuscar.setVisibility(View.GONE);
+
+        pDialog = new ProgressDialog(MainActivity.this);
+        pDialog.setCancelable(false);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, url_cari, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("Response: ", response);
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+
+                    int value = jObj.getInt(TAG_VALUE);
+
+
+                    if (value > 0) {
+                        listData.clear();
+                        adapter.notifyDataSetChanged();
+
+                        String getObject = jObj.getString(TAG_RESULTS);
+                        JSONArray jsonArray = new JSONArray(getObject);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            Producto data = new Producto();
+                            String txtMarca = "";
+                            String txtModelo = "";
+                            String txtMotor = "";
+                            String txtAnno = "";
+                            String txtHp = "";
+                            String txtOMarca="";
+                            String txtOCod="";
+
+                            String getObjectveh = obj.getString(TAG_RESULTSVEH);
+                            JSONArray jsonArrayVeh = new JSONArray(getObjectveh);
+
+                            for (int j = 0; j < jsonArrayVeh.length(); j++) {
+
+                                JSONObject obj2 = jsonArrayVeh.getJSONObject(j);
+
+                                txtMarca = txtMarca + obj2.getString(TAG_MARCA);
+                                txtModelo = txtModelo + obj2.getString(TAG_MODELO);
+                                txtMotor = txtMotor + obj2.getString(TAG_MOTOR);
+                                txtAnno = txtAnno + obj2.getString(TAG_ANNO);
+                                txtHp = txtHp + obj2.getString(TAG_KW);
+
+                            }
+
+                            String getObjectoMarcas = obj.getString(TAG_DETALLES_O_MARCAS);
+                            JSONArray jsonArrayOMarcas = new JSONArray(getObjectoMarcas);
+
+                            for (int j = 0; j < jsonArrayOMarcas.length(); j++) {
+
+                                JSONObject obj3 = jsonArrayOMarcas.getJSONObject(j);
+
+                                txtOMarca = txtOMarca + obj3.getString(TAG_DETALLE_O_MARCA);
+                                txtOCod = txtOCod + obj3.getString(TAG_DETALLE_O_COD);
+
+                            }
+
+                            data.setTxtDetalleOMarca(txtOMarca);
+                            data.setTxtDetalleOCod(txtOCod);
+
+                            data.setTxtMarca(txtMarca);
+                            data.setTxtModelo(txtModelo);
+                            data.setTxtMotor(txtMotor);
+                            data.setTxtKwPotencia(txtHp);
+                            data.setTxtAnno(txtAnno);
+
+                            data.setTxtTipoProd(obj.getString(TAG_TIPO_PROD));
+                            data.setTxtCodigoProd(obj.getString(TAG_CODIGO));
+                            data.setRutaImg(obj.getString(TAG_RUTA_IMG));
+                            data.setRutaImg_2(obj.getString(TAG_RUTA_IMG_2));
+                            data.setTxtDetalle(obj.getString(TAG_DETALLES_O_MARCAS));
+                            data.setTxtDetalleCodBarra(obj.getString(TAG_DETALLESCODBARRA));
+                            data.setTxtDetalleMedida(obj.getString(TAG_DETALLESMEDIDA));
+                            data.setTxtDetallePeso(obj.getString(TAG_DETALLESPESO));
+                            listData.add(data);
+
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
+                        spTipoProducto.setVisibility(View.VISIBLE);
+                        spMarca.setVisibility(View.VISIBLE);
+                        spModelo.setVisibility(View.VISIBLE);
+                        spMotor.setVisibility(View.VISIBLE);
+                        spTipoProducto.setVisibility(View.VISIBLE);
+                        btnBuscar.setVisibility(View.VISIBLE);
+                    }
+
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                }
+
+                adapter.notifyDataSetChanged();
+                 pDialog.dismiss();
             }
         }, new Response.ErrorListener() {
 
@@ -331,7 +784,9 @@ public class MainActivity extends AppCompatActivity
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                //  pDialog.dismiss();
+
+
+                  pDialog.dismiss();
             }
         }) {
 
@@ -381,9 +836,23 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.instagram) {
+        if (id == R.id.BusquedaPersonalisada) {
+            new GetTproducto().execute();
+            new GetMarca().execute();
+            new GetModelo().execute();
+            new GetMotor().execute();
+
+            spTipoProducto.setVisibility(View.VISIBLE);
+            spMarca.setVisibility(View.VISIBLE);
+            spModelo.setVisibility(View.VISIBLE);
+            spMotor.setVisibility(View.VISIBLE);
+            spTipoProducto.setVisibility(View.VISIBLE);
+            btnBuscar.setVisibility(View.VISIBLE);
+            list_view.setVisibility(View.GONE);
+        }else if (id == R.id.Ajustes) {
+            /////////////////Ajustes////////////
+        }
+        else if (id == R.id.instagram) {
             Uri uri = Uri.parse("https://instagram.com/aksuglobal");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
@@ -409,8 +878,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
 
-        } else if (id == R.id.youtube) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -423,10 +890,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-
 }

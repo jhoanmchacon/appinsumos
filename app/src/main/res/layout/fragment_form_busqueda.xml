@@ -7,8 +7,7 @@
     tools:showIn="@layout/app_bar_main"
     android:orientation="vertical"
     android:background="@drawable/side_nav_bar"
-    android:id="@+id/FormBusquedaFragment"
-    android:visibility="visible">
+    android:id="@+id/FormBusquedaFragment">
 
 
     <android.support.v7.widget.RecyclerView
