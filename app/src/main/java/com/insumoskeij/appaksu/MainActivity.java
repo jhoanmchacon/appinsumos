@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity
                 ModeloList.clear();
                 MotorList.clear();
                 if (!txtAgregarMarca.isEmpty()) {
+                    MotorList.clear();
                     new GetModelo().execute();
 
                     tModeloCombo = findViewById(R.id.tModeloCombo);
@@ -234,8 +235,8 @@ public class MainActivity extends AppCompatActivity
         spModelo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
                 txtAgregarModelo = ModeloList.get(i).getId_modelo();
-                MotorList.clear();
                 if (!txtAgregarModelo.isEmpty()) {
                     new GetMotor().execute();
 
@@ -341,12 +342,11 @@ public class MainActivity extends AppCompatActivity
                     JSONObject jsonObj = new JSONObject(json);
                     if (jsonObj != null) {
                         JSONArray frutas = jsonObj.getJSONArray("data");
-
+                        TprodList.clear();
                         for (int i = 0; i < frutas.length(); i++) {
                             JSONObject catObj = (JSONObject) frutas.get(i);
                             //System.out.println(catObj);
                             TipoProducto cat = new TipoProducto (catObj.getString("id"), catObj.getString("desc"));
-
                             TprodList.add(cat);
                         }
                     }
@@ -400,6 +400,7 @@ public class MainActivity extends AppCompatActivity
             if (json != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(json);
+                    MarcaList.clear();
                     if (jsonObj != null) {
                         JSONArray marca = jsonObj.getJSONArray("data");
                         int i = 0;
@@ -471,6 +472,7 @@ public class MainActivity extends AppCompatActivity
                     if (jsonObj != null ) {
                         JSONArray modelos = jsonObj.getJSONArray("data");
                         int i = 0;
+                        ModeloList.clear();
                         for ( i = 0; i < modelos.length(); i++) {
                             JSONObject catObj = (JSONObject) modelos.get(i);
                             //System.out.println(catObj);
@@ -536,6 +538,7 @@ public class MainActivity extends AppCompatActivity
                     JSONObject jsonObj = new JSONObject(json);
                     if (jsonObj != null) {
                         JSONArray motor = jsonObj.getJSONArray("data");
+                        MotorList.clear();
 
                         for (int i = 0; i < motor.length(); i++) {
                             JSONObject catObj = (JSONObject) motor.get(i);
@@ -574,8 +577,7 @@ public class MainActivity extends AppCompatActivity
         spTipoProducto.setVisibility(View.GONE);
         tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
-        tModeloCombo.setVisibility(View.GONE);
-        spModelo.setVisibility(View.GONE);
+
 
         if (spModelo.getVisibility()==View.VISIBLE ){
             tModeloCombo.setVisibility(View.GONE);
@@ -680,6 +682,21 @@ public class MainActivity extends AppCompatActivity
 
                     } else {
                         Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
+                        txtAgregarMarca="";
+                        txtAgregarModelo="";
+                        txtAgregarMotor="";
+                        txtAgregarTprod="";
+
+                        tTipoProdCombo.setVisibility(View.VISIBLE);
+                        spTipoProducto.setVisibility(View.VISIBLE);
+                        tMarcaCombo.setVisibility(View.VISIBLE);
+                        spMarca.setVisibility(View.VISIBLE);
+                        /*tModeloCombo.setVisibility(View.VISIBLE);
+                        spModelo.setVisibility(View.VISIBLE);
+                        tMotorCombo.setVisibility(View.VISIBLE);
+                        spMotor.setVisibility(View.VISIBLE);*/
+                        btnBuscar.setVisibility(View.VISIBLE);
+                        list_view.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -753,7 +770,12 @@ public class MainActivity extends AppCompatActivity
             spMotor.setVisibility(View.GONE);
         }
 
+        if (list_view.getVisibility()==View.GONE){
+            list_view.setVisibility(View.VISIBLE);
+        }
+
         btnBuscar.setVisibility(View.GONE);
+
 
         pDialog = new ProgressDialog(MainActivity.this);
         pDialog.setCancelable(false);
@@ -839,12 +861,17 @@ public class MainActivity extends AppCompatActivity
 
                     } else {
                         Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
+                        pDialog.dismiss();
+                        tTipoProdCombo.setVisibility(View.VISIBLE);
                         spTipoProducto.setVisibility(View.VISIBLE);
+                        tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
+                        /*tModeloCombo.setVisibility(View.VISIBLE);
                         spModelo.setVisibility(View.VISIBLE);
-                        spMotor.setVisibility(View.VISIBLE);
-                        spTipoProducto.setVisibility(View.VISIBLE);
+                        tMotorCombo.setVisibility(View.VISIBLE);
+                        spMotor.setVisibility(View.VISIBLE);*/
                         btnBuscar.setVisibility(View.VISIBLE);
+                        list_view.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -936,10 +963,7 @@ public class MainActivity extends AppCompatActivity
             btnBuscar.setVisibility(View.VISIBLE);
             list_view.setVisibility(View.GONE);
 
-            spModelo.setVisibility(View.GONE);
-            spMotor.setVisibility(View.GONE);
-//            tModeloCombo.setVisibility(View.GONE);
-  //          tMotorCombo.setVisibility(View.GONE);
+
         }else if (id == R.id.Ajustes) {
             /////////////////Ajustes////////////
         }
