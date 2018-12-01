@@ -682,11 +682,6 @@ public class MainActivity extends AppCompatActivity
 
                     } else {
                         Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
-                        txtAgregarMarca="";
-                        txtAgregarModelo="";
-                        txtAgregarMotor="";
-                        txtAgregarTprod="";
-
                         tTipoProdCombo.setVisibility(View.VISIBLE);
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
