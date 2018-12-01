@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 txtAgregarMarca = MarcaList.get(i).getId_marca();
                 ModeloList.clear();
-                MotorList.clear();
+
                 if (!txtAgregarMarca.isEmpty()) {
                     MotorList.clear();
                     new GetModelo().execute();
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity
         /****COMBO MOTOR***/
         spMotor = findViewById(R.id.spMotor);
         MotorList = new ArrayList<Motor>();
-
+        MotorList.clear();
         spMotor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
