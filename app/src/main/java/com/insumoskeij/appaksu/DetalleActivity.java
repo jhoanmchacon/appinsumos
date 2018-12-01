@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,15 +18,13 @@ import com.android.volley.toolbox.Volley;
 
 public class DetalleActivity extends AppCompatActivity {
 
-    TextView txtMarca, txtModelo, txtAnno,
-            txtTipoProd, txtCodProd, txtCodProd_2,
-            txtOMarcas, tOMarcas,
+    TextView  txtCodProd_2,
             tCodBarra, txtDetalleCodBarra,
-            txtDetalleMedida, tDetalleMedida,
+            txtDetalleMedida, tMedida,
             txtDetallePeso, tDetallePeso,
             txtDetalleVeh, tDetalleVeh,
             tbMarca, tbModelo, tbanno, tbMotor,motor, tbHP,hp,
-            tbOMarca ,tbOCod;
+            tbOMarca ,tbOCod, OMarcas,oCod;
     View lineaCodBarra,lineaMedida,lineaPeso;
     ImageView imgProd;
     RequestQueue request;
@@ -44,12 +41,11 @@ public class DetalleActivity extends AppCompatActivity {
         imgProd = findViewById(R.id.imgProd);
         //txtTipoProd = findViewById(R.id.txtTipoProd);
         txtCodProd_2 = findViewById(R.id.txtCodProd_D_2);
-        tOMarcas = findViewById(R.id.tOMarcas);
         txtDetalleCodBarra = findViewById(R.id.txtDetallesCodBarra);
         tCodBarra = findViewById(R.id.tCodBarra);
         lineaCodBarra = findViewById(R.id.lineaCodBarra);
         txtDetalleMedida = findViewById(R.id.txtDetallesMedida);
-        tDetalleMedida = findViewById(R.id.tMedida);
+        tMedida = findViewById(R.id.tMedida);
         lineaMedida = findViewById(R.id.lineaMedida);
         txtDetallePeso = findViewById(R.id.txtDetallesPeso);
         tDetallePeso = findViewById(R.id.tPeso);
@@ -66,6 +62,8 @@ public class DetalleActivity extends AppCompatActivity {
 
         tbOMarca = findViewById(R.id.tbOMarca);
         tbOCod = findViewById(R.id.tbOCod);
+        OMarcas = findViewById(R.id.oMarcas);
+        oCod = findViewById(R.id.oCod);
 
 
         request = Volley.newRequestQueue(getApplicationContext());
@@ -99,15 +97,8 @@ public class DetalleActivity extends AppCompatActivity {
             motor.setVisibility(View.VISIBLE);
         }*/
 
-        if  (tprod.equals("Limpia Parabrisas")|| tprod.equals("Iluminación")){
-            tbMotor.setVisibility(View.GONE);
-            motor.setVisibility(View.GONE);
-            tbHP.setVisibility(View.GONE);
-            hp.setVisibility(View.GONE);
-        }
-
         if (detalle.trim().length() > 0) {
-            tOMarcas.setVisibility(View.VISIBLE);
+            OMarcas.setVisibility(View.VISIBLE);
             //txtOMarcas.setVisibility(View.VISIBLE);
         }
 
@@ -118,7 +109,7 @@ public class DetalleActivity extends AppCompatActivity {
         }
 
         if (detalleMedida.trim().length() > 0) {
-            tDetalleMedida.setVisibility(View.VISIBLE);
+            tMedida.setVisibility(View.VISIBLE);
             txtDetalleMedida.setVisibility(View.VISIBLE);
             lineaMedida.setVisibility(View.VISIBLE);
         }
@@ -127,6 +118,34 @@ public class DetalleActivity extends AppCompatActivity {
             tDetallePeso.setVisibility(View.VISIBLE);
             txtDetallePeso.setVisibility(View.VISIBLE);
             lineaPeso.setVisibility(View.VISIBLE);
+        }
+
+        if  (tprod.equals("Limpia Parabrisas")){
+            tbMotor.setVisibility(View.GONE);
+            motor.setVisibility(View.GONE);
+            tbHP.setVisibility(View.GONE);
+            hp.setVisibility(View.GONE);
+
+            OMarcas.setVisibility(View.GONE);
+            tbOMarca.setVisibility(View.GONE);
+            oCod.setVisibility(View.GONE);
+            tbOCod.setVisibility(View.GONE);
+            tMedida.setVisibility(View.GONE);
+            txtDetalleMedida.setVisibility(View.GONE);
+            lineaMedida.setVisibility(View.GONE);
+            lineaPeso.setVisibility(View.GONE);
+            lineaCodBarra.setVisibility(View.GONE);
+        }
+
+        if  (tprod.equals("Iluminación")){
+            tbMotor.setVisibility(View.GONE);
+            motor.setVisibility(View.GONE);
+            tbHP.setVisibility(View.GONE);
+            hp.setVisibility(View.GONE);
+            OMarcas.setVisibility(View.GONE);
+            tbOMarca.setVisibility(View.GONE);
+            oCod.setVisibility(View.GONE);
+            tbOCod.setVisibility(View.GONE);
         }
 
 
