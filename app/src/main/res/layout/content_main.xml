@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgLogo"
             android:layout_marginLeft="10dp"
-            android:text="TIPO PRODUCTO"
+            android:text="TIPO DE PRODUCTO"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="italic"
