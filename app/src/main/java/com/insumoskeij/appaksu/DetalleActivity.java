@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,8 @@ public class DetalleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); /**** AGREGAR ****************************************************/
+
         imgProd = findViewById(R.id.imgProd);
         //txtTipoProd = findViewById(R.id.txtTipoProd);
         txtCodProd_2 = findViewById(R.id.txtCodProd_D_2);
@@ -210,4 +213,15 @@ public class DetalleActivity extends AppCompatActivity {
 
 
     }
+
+/**************************************************************************************************/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 16908332:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+/**************************************************************************************************/
 }

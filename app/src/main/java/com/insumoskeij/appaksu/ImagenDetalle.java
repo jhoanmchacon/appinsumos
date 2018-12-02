@@ -3,6 +3,7 @@ package com.insumoskeij.appaksu;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ public class ImagenDetalle extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imagen_detalle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); /**** AGREGAR ****************************************************/
+
         Intent i = this.getIntent();
         //usarToolbar();
 
@@ -49,6 +52,17 @@ public class ImagenDetalle extends AppCompatActivity {
 
 
     }
+
+/**************************************************************************************************/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 16908332:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+/**************************************************************************************************/
 
 
 }
