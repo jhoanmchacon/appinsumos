@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 
 
 public class ImagenDetalle extends AppCompatActivity {
@@ -39,6 +40,8 @@ public class ImagenDetalle extends AppCompatActivity {
 
 
         imagenExtendida =  findViewById(R.id.imagen_extendida);
+        PhotoView photoView = (PhotoView) imagenExtendida;
+
         //tProd = findViewById(R.id.tProd);
        // cProd = findViewById(R.id.cProd);
 

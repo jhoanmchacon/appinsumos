@@ -7,11 +7,19 @@
 
 
 
-    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/imagen_extendida"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="@string/nombre_transicion_imagen">
 
-    </ImageView>
+    </ImageView>-->
+
+    <com.github.chrisbanes.photoview.PhotoView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/imagen_extendida"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="@string/nombre_transicion_imagen"
+    />
 </LinearLayout>
