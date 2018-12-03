@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -154,6 +153,19 @@
                             android:visibility="visible" />
 
                         <TextView
+                            android:id="@+id/mLimpiaP"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:paddingLeft="15dp"
+                            android:scrollbars="none"
+                            android:text="Medidas"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold|italic"
+                            android:visibility="gone" />
+
+                        <TextView
                             android:id="@+id/otros"
                             android:layout_width="15dp"
                             android:layout_height="wrap_content"
@@ -212,6 +224,15 @@
                             android:gravity="right"
                             android:text="HP"
                             android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/tbMLimpiaP"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:paddingLeft="20dp"
+                            android:text="tbMLimpiaP"
+                            android:visibility="gone" />
                     </TableRow>
 
 

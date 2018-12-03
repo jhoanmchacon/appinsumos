@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
                 LogoLaucher logoLaucher = new LogoLaucher();
                 logoLaucher.start();
             }
-        }, 10000);//se debe colocar mínimo el tiempo de duración del video
+        }, 5000);//se debe colocar mínimo el tiempo de duración del video
 
     }
 

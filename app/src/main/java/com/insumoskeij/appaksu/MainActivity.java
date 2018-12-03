@@ -2,8 +2,10 @@ package com.insumoskeij.appaksu;
 
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG_VALUE = "value";
     public static final  String TAG_DETALLE_O_MARCA = "r_desc_marca_prod";
     public static final  String TAG_DETALLE_O_COD = "r_cod_prod_marca";
+    public static final  String TAG_MEDIDA_L_P = "v_medidas_limpia_parabrisas";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,8 +141,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                sendEmail();
             }
         });
 
@@ -212,12 +217,17 @@ public class MainActivity extends AppCompatActivity
                 ModeloList.clear();
 
                 if (!txtAgregarMarca.isEmpty()) {
-                    MotorList.clear();
+
                     new GetModelo().execute();
 
                     tModeloCombo = findViewById(R.id.tModeloCombo);
                     spModelo.setVisibility(View.VISIBLE);
                     tModeloCombo.setVisibility(View.VISIBLE);
+
+                    if (spMotor.getVisibility()==View.VISIBLE){
+                    spMotor.setVisibility(View.GONE);
+                    tMotorCombo.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -238,6 +248,7 @@ public class MainActivity extends AppCompatActivity
 
                 txtAgregarModelo = ModeloList.get(i).getId_modelo();
                 if (!txtAgregarModelo.isEmpty()) {
+                    MotorList.clear();
                     new GetMotor().execute();
 
                     tMotorCombo = findViewById(R.id.tMotorCombo);
@@ -262,6 +273,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 txtAgregarMotor = MotorList.get(i).getId_motor();
+
             }
 
             @Override
@@ -448,6 +460,7 @@ public class MainActivity extends AppCompatActivity
         spinnerAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spModelo.setAdapter(spinnerAdapter);
+        spinnerAdapter.notifyDataSetChanged();
     }
 
     private class GetModelo extends AsyncTask<Void, Void, Void> {
@@ -466,6 +479,7 @@ public class MainActivity extends AppCompatActivity
             String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22", ServiceHandler.GET);
             System.out.println("urlllll" + "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22");
             Log.e("Response: ", "> " + json);
+
             if (json != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(json);
@@ -539,11 +553,16 @@ public class MainActivity extends AppCompatActivity
                     if (jsonObj != null) {
                         JSONArray motor = jsonObj.getJSONArray("data");
                         MotorList.clear();
-
-                        for (int i = 0; i < motor.length(); i++) {
+                        int i = 0;
+                        for (i = 0; i < motor.length(); i++) {
                             JSONObject catObj = (JSONObject) motor.get(i);
                             //System.out.println(catObj);
                             Motor cat = new Motor(catObj.getString("id"), catObj.getString("desc"));
+                            //System.out.println(cat);
+                            MotorList.add(cat);
+                        }
+                        if (i==0){
+                            Motor cat = new Motor(" ", "no se");
                             //System.out.println(cat);
                             MotorList.add(cat);
                         }
@@ -629,6 +648,7 @@ public class MainActivity extends AppCompatActivity
                             String txtMotor = "";
                             String txtAnno = "";
                             String txtHp = "";
+                            String txtMLimpiaP="";
                             String txtOMarca="";
                             String txtOCod="";
 
@@ -644,6 +664,8 @@ public class MainActivity extends AppCompatActivity
                                 txtMotor = txtMotor + obj2.getString(TAG_MOTOR);
                                 txtAnno = txtAnno + obj2.getString(TAG_ANNO);
                                 txtHp = txtHp + obj2.getString(TAG_KW);
+                                txtMLimpiaP = txtMLimpiaP + obj2.getString(TAG_MEDIDA_L_P);
+
 
                             }
 
@@ -667,6 +689,7 @@ public class MainActivity extends AppCompatActivity
                             data.setTxtMotor(txtMotor);
                             data.setTxtKwPotencia(txtHp);
                             data.setTxtAnno(txtAnno);
+                            data.setTxtMedidaLP(txtMLimpiaP);
 
                             data.setTxtTipoProd(obj.getString(TAG_TIPO_PROD));
                             data.setTxtCodigoProd(obj.getString(TAG_CODIGO));
@@ -676,6 +699,7 @@ public class MainActivity extends AppCompatActivity
                             data.setTxtDetalleCodBarra(obj.getString(TAG_DETALLESCODBARRA));
                             data.setTxtDetalleMedida(obj.getString(TAG_DETALLESMEDIDA));
                             data.setTxtDetallePeso(obj.getString(TAG_DETALLESPESO));
+
                             listData.add(data);
 
                         }
@@ -686,10 +710,16 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
-                        /*tModeloCombo.setVisibility(View.VISIBLE);
-                        spModelo.setVisibility(View.VISIBLE);
-                        tMotorCombo.setVisibility(View.VISIBLE);
-                        spMotor.setVisibility(View.VISIBLE);*/
+
+                        if (!txtAgregarModelo.isEmpty()){
+                            spModelo.setVisibility(View.VISIBLE);
+                            tModeloCombo.setVisibility(View.VISIBLE);
+                        }
+
+                        if(!txtAgregarMotor.isEmpty()){
+                            spMotor.setVisibility(View.VISIBLE);
+                            tMotorCombo.setVisibility(View.VISIBLE);
+                        }
                         btnBuscar.setVisibility(View.VISIBLE);
                         list_view.setVisibility(View.GONE);
                     }
@@ -721,6 +751,29 @@ public class MainActivity extends AppCompatActivity
     public void onRefresh() {
         //callData();
     }
+
+    protected void sendEmail() {
+        String[] TO = {"insumos.keij.ca@gmail.com"}; //aquí pon tu correo
+        String[] CC = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("jhoanmchacon@gmail.com"));
+       // emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+// Esto podrás modificarlo si quieres, el asunto y el cuerpo del mensaje
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Asunto");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Escribe aquí tu mensaje");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Enviar email..."));
+           // finish();
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this,
+                    "No tienes clientes de email instalados.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -803,6 +856,7 @@ public class MainActivity extends AppCompatActivity
                             String txtMotor = "";
                             String txtAnno = "";
                             String txtHp = "";
+                            String txtMLimpiaP="";
                             String txtOMarca="";
                             String txtOCod="";
 
@@ -818,6 +872,7 @@ public class MainActivity extends AppCompatActivity
                                 txtMotor = txtMotor + obj2.getString(TAG_MOTOR);
                                 txtAnno = txtAnno + obj2.getString(TAG_ANNO);
                                 txtHp = txtHp + obj2.getString(TAG_KW);
+                                txtMLimpiaP = txtMLimpiaP + obj2.getString(TAG_MEDIDA_L_P);
 
                             }
 
@@ -841,6 +896,7 @@ public class MainActivity extends AppCompatActivity
                             data.setTxtMotor(txtMotor);
                             data.setTxtKwPotencia(txtHp);
                             data.setTxtAnno(txtAnno);
+                            data.setTxtMedidaLP(txtMLimpiaP);
 
                             data.setTxtTipoProd(obj.getString(TAG_TIPO_PROD));
                             data.setTxtCodigoProd(obj.getString(TAG_CODIGO));
@@ -925,6 +981,10 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_search) {
             return true;
         }
+        System.out.println("flecha: " +id);
+        if (id == 16908332) {
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -1004,5 +1064,31 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("AKSU GLOBAL")
+                    .setMessage("¿Está seguro que desea salir?")
+                    .setNegativeButton(android.R.string.cancel, null)// sin listener
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+// Salir
+                            finish();
+                        }
+                    })
+                    .show();
+
+// Si el listener devuelve true, significa que el evento esta procesado, y nadie debe hacer nada mas
+            return true;
+        }
+// para las demas cosas, se reenvia el evento al listener habitual
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -24,7 +24,7 @@ public class DetalleActivity extends AppCompatActivity {
             txtDetalleMedida, tMedida,
             txtDetallePeso, tDetallePeso,
             txtDetalleVeh, tDetalleVeh,
-            tbMarca, tbModelo, tbanno, tbMotor,motor, tbHP,hp,
+            tbMarca, tbModelo, tbanno, tbMotor,motor, tbHP,hp,mLimpiaP,tbMLimpiaP,
             tbOMarca ,tbOCod, OMarcas,oCod;
     View lineaCodBarra,lineaMedida,lineaPeso;
     ImageView imgProd;
@@ -39,7 +39,7 @@ public class DetalleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); /**** AGREGAR ****************************************************/
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imgProd = findViewById(R.id.imgProd);
         //txtTipoProd = findViewById(R.id.txtTipoProd);
@@ -62,6 +62,10 @@ public class DetalleActivity extends AppCompatActivity {
         motor = findViewById(R.id.motor);
         tbHP = findViewById(R.id.tbHP);
         hp = findViewById(R.id.HP);
+        mLimpiaP = findViewById(R.id.mLimpiaP);
+        tbMLimpiaP = findViewById(R.id.tbMLimpiaP);
+
+
 
         tbOMarca = findViewById(R.id.tbOMarca);
         tbOCod = findViewById(R.id.tbOCod);
@@ -91,6 +95,7 @@ public class DetalleActivity extends AppCompatActivity {
         String detalleAnno = i.getExtras().getString("ANNO");
         String detalleMotor = i.getExtras().getString("MOTOR");
         String detalleHP = i.getExtras().getString("DETALLEHP");
+        String detalleMLimpiaP = i.getExtras().getString("MEDIDALIMPIAP");
 
         String Omarcas = i.getExtras().getString("OMARCAS");
         String Ocodigo = i.getExtras().getString("OCODIGO");
@@ -128,6 +133,8 @@ public class DetalleActivity extends AppCompatActivity {
             motor.setVisibility(View.GONE);
             tbHP.setVisibility(View.GONE);
             hp.setVisibility(View.GONE);
+            mLimpiaP.setVisibility(View.VISIBLE);
+            tbMLimpiaP.setVisibility(View.VISIBLE);
 
             OMarcas.setVisibility(View.GONE);
             tbOMarca.setVisibility(View.GONE);
@@ -145,6 +152,8 @@ public class DetalleActivity extends AppCompatActivity {
             motor.setVisibility(View.GONE);
             tbHP.setVisibility(View.GONE);
             hp.setVisibility(View.GONE);
+            mLimpiaP.setVisibility(View.GONE);
+            tbMLimpiaP.setVisibility(View.GONE);
             OMarcas.setVisibility(View.GONE);
             tbOMarca.setVisibility(View.GONE);
             oCod.setVisibility(View.GONE);
@@ -167,6 +176,7 @@ public class DetalleActivity extends AppCompatActivity {
         tbanno.setText(Html.fromHtml(detalleAnno));
         tbMotor.setText(Html.fromHtml(detalleMotor));
         tbHP.setText(Html.fromHtml(detalleHP));
+        tbMLimpiaP.setText(Html.fromHtml(detalleMLimpiaP));
 
         tbOMarca.setText(Html.fromHtml(Omarcas));
         tbOCod.setText(Html.fromHtml(Ocodigo));

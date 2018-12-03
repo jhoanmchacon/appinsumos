@@ -93,6 +93,7 @@ public class Adapter extends BaseAdapter {
         intent.putExtra("MODELO", item.get(position).getTxtModelo());
         intent.putExtra("ANNO", item.get(position).getTxtAnno());
         intent.putExtra("DETALLEHP", item.get(position).getTxtKwPotencia());
+        intent.putExtra("MEDIDALIMPIAP", item.get(position).getTxtMedidaLP());
         intent.putExtra("TPROD", item.get(position).getTxtTipoProd());
         intent.putExtra("CPROD", item.get(position).getTxtCodigoProd());
         intent.putExtra("OMARCAS", item.get(position).getTxtDetalleOMarca());

@@ -11,6 +11,7 @@ public class Producto {
     private String txtDetalle;
     private String txtDetalleCodBarra;
     private String txtDetalleMedida;
+    private String txtMedidaLP;
     private String txtDetallePeso;
     private String txtAnno;
     private String txtCodigoProd;
@@ -25,15 +26,16 @@ public class Producto {
     private String txtDetalleMotor;
     private String getTxtDetalleHP;
 
-    public Producto(String txtMarca, String txtModelo, String txtMotor, String txtserie, String txtKwPotencia, String txtDetalle, String txtDetalleCodBarra, String txtDetalleMedida, String txtDetallePeso, String txtAnno, String txtCodigoProd, String txtTipoProd, Bitmap imgProd, String rutaImg, String rutaImg_2, String txtDetalleVeh, String txtDetalleMarca, String txtDetalleModelo, String txtDetalleAnno, String txtDetalleMotor, String getTxtDetalleHP) {
-        this.txtMarca = txtMarca;
+    public Producto(String txtserie, String txtModelo, String txtMotor, String txtMarca, String txtKwPotencia, String txtDetalle, String txtDetalleCodBarra, String txtDetalleMedida, String txtMedidaLP, String txtDetallePeso, String txtAnno, String txtCodigoProd, String txtTipoProd, Bitmap imgProd, String rutaImg, String rutaImg_2, String txtDetalleVeh, String txtDetalleOMarca, String txtDetalleOCod, String txtDetalleAnno, String txtDetalleMotor, String getTxtDetalleHP) {
+        this.txtserie = txtserie;
         this.txtModelo = txtModelo;
         this.txtMotor = txtMotor;
-        this.txtserie = txtserie;
+        this.txtMarca = txtMarca;
         this.txtKwPotencia = txtKwPotencia;
         this.txtDetalle = txtDetalle;
         this.txtDetalleCodBarra = txtDetalleCodBarra;
         this.txtDetalleMedida = txtDetalleMedida;
+        this.txtMedidaLP = txtMedidaLP;
         this.txtDetallePeso = txtDetallePeso;
         this.txtAnno = txtAnno;
         this.txtCodigoProd = txtCodigoProd;
@@ -42,14 +44,22 @@ public class Producto {
         this.rutaImg = rutaImg;
         this.rutaImg_2 = rutaImg_2;
         this.txtDetalleVeh = txtDetalleVeh;
-        this.txtDetalleOMarca = txtDetalleMarca;
-        this.txtDetalleOCod = txtDetalleModelo;
+        this.txtDetalleOMarca = txtDetalleOMarca;
+        this.txtDetalleOCod = txtDetalleOCod;
         this.txtDetalleAnno = txtDetalleAnno;
         this.txtDetalleMotor = txtDetalleMotor;
         this.getTxtDetalleHP = getTxtDetalleHP;
     }
 
     public Producto () {
+    }
+
+    public String getTxtMedidaLP() {
+        return txtMedidaLP;
+    }
+
+    public void setTxtMedidaLP(String txtMedidaLP) {
+        this.txtMedidaLP = txtMedidaLP;
     }
 
     public String getTxtSerie() {
@@ -217,5 +227,7 @@ public class Producto {
     public void setGetTxtDetalleHP(String getTxtDetalleHP) {
         this.getTxtDetalleHP = getTxtDetalleHP;
     }
+
+
 }
 
