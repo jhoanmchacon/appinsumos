@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#2f7635</color>
     <color name="colorAccent">#f86716</color>
     <color name="my_spinner_text_color">#ffffff</color>
+    <drawable name="fondo_toolbar">@drawable/fondo_app_2</drawable>
 
 </resources>

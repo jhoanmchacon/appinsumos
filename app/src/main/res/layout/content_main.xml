@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
@@ -10,6 +10,16 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.insumoskeij.appaksu.MainActivity"
     tools:showIn="@layout/app_bar_main">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
+
+    </android.support.design.widget.AppBarLayout>
 
     <ListView
         android:id="@+id/list_view"
@@ -51,8 +61,7 @@
             android:prompt="@string/hint_tProd"
             android:spinnerMode="dropdown"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="visible"
-            style="@android:style/Widget.Holo.Light.Spinner">
+            android:visibility="visible">
 
         </Spinner>
 
@@ -78,8 +87,7 @@
             android:layout_margin="10dp"
             android:prompt="@string/hint_Marca"
             android:spinnerMode="dropdown"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            style="@android:style/Widget.Holo.Light.Spinner">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
         </Spinner>
 
@@ -105,8 +113,7 @@
             android:prompt="@string/hint_Modelo"
             android:spinnerMode="dropdown"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="gone"
-            style="@android:style/Widget.Holo.Light.Spinner">
+            android:visibility="gone">
 
         </Spinner>
 
@@ -132,8 +139,7 @@
             android:prompt="@string/hint_Motor"
             android:spinnerMode="dropdown"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="gone"
-            style="@android:style/Widget.Holo.Light.Spinner">
+            android:visibility="gone">
 
         </Spinner>
 
@@ -155,4 +161,4 @@
 
 
     </RelativeLayout>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

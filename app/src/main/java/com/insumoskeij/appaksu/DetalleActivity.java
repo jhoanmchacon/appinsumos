@@ -7,7 +7,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,27 +19,24 @@ import com.android.volley.toolbox.Volley;
 
 public class DetalleActivity extends AppCompatActivity {
 
-    TextView  txtCodProd_2,
+    TextView txtCodProd_2,
             tCodBarra, txtDetalleCodBarra,
             txtDetalleMedida, tMedida,
             txtDetallePeso, tDetallePeso,
             txtDetalleVeh, tDetalleVeh,
-            tbMarca, tbModelo, tbanno, tbMotor,motor, tbHP,hp,mLimpiaP,tbMLimpiaP,
-            tbOMarca ,tbOCod, OMarcas,oCod;
-    View lineaCodBarra,lineaMedida,lineaPeso;
+            tbMarca, tbModelo, tbanno, tbMotor, motor, tbHP, hp, mLimpiaP, tbMLimpiaP,
+            tbOMarca, tbOCod, OMarcas, oCod;
+    View lineaCodBarra, lineaMedida, lineaPeso;
     ImageView imgProd;
     RequestQueue request;
     String rutaImgProd, tprod, cprod;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         imgProd = findViewById(R.id.imgProd);
         //txtTipoProd = findViewById(R.id.txtTipoProd);
@@ -64,7 +61,6 @@ public class DetalleActivity extends AppCompatActivity {
         hp = findViewById(R.id.HP);
         mLimpiaP = findViewById(R.id.mLimpiaP);
         tbMLimpiaP = findViewById(R.id.tbMLimpiaP);
-
 
 
         tbOMarca = findViewById(R.id.tbOMarca);
@@ -128,7 +124,7 @@ public class DetalleActivity extends AppCompatActivity {
             lineaPeso.setVisibility(View.VISIBLE);
         }
 
-        if  (tprod.equals("Limpia Parabrisas")){
+        if (tprod.equals("Limpia Parabrisas")) {
             tbMotor.setVisibility(View.GONE);
             motor.setVisibility(View.GONE);
             tbHP.setVisibility(View.GONE);
@@ -147,7 +143,7 @@ public class DetalleActivity extends AppCompatActivity {
             lineaCodBarra.setVisibility(View.GONE);
         }
 
-        if  (tprod.equals("Iluminación")){
+        if (tprod.equals("Iluminación")) {
             tbMotor.setVisibility(View.GONE);
             motor.setVisibility(View.GONE);
             tbHP.setVisibility(View.GONE);
@@ -161,14 +157,13 @@ public class DetalleActivity extends AppCompatActivity {
         }
 
 
-
         //BIND DATA
 
 //        txtOMarcas.setText(Html.fromHtml(detalle));
         txtDetalleCodBarra.setText(detalleCodBarra);
         txtDetalleMedida.setText(detalleMedida);
         txtDetallePeso.setText(detallePeso);
-        txtCodProd_2.setText(tprod+" "+cprod);
+        txtCodProd_2.setText(tprod + " " + cprod);
 
 
         tbMarca.setText(Html.fromHtml(detalleMarca));
@@ -182,9 +177,9 @@ public class DetalleActivity extends AppCompatActivity {
         tbOCod.setText(Html.fromHtml(Ocodigo));
 
 
-       GlideApp.with(this).load(rutaImgProd)
-               .placeholder(R.drawable.ic_base_camara)
-               .into(imgProd);
+        GlideApp.with(this).load(rutaImgProd)
+                .placeholder(R.drawable.ic_base_camara)
+                .into(imgProd);
 
         imgProd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,7 +219,7 @@ public class DetalleActivity extends AppCompatActivity {
 
     }
 
-/**************************************************************************************************/
+    /**************************************************************************************************/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
