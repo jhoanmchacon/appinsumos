@@ -51,7 +51,8 @@
             android:prompt="@string/hint_tProd"
             android:spinnerMode="dropdown"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="visible">
+            android:visibility="visible"
+            style="@android:style/Widget.Holo.Light.Spinner">
 
         </Spinner>
 
@@ -77,7 +78,8 @@
             android:layout_margin="10dp"
             android:prompt="@string/hint_Marca"
             android:spinnerMode="dropdown"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            style="@android:style/Widget.Holo.Light.Spinner">
 
         </Spinner>
 
@@ -103,7 +105,8 @@
             android:prompt="@string/hint_Modelo"
             android:spinnerMode="dropdown"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="gone">
+            android:visibility="gone"
+            style="@android:style/Widget.Holo.Light.Spinner">
 
         </Spinner>
 
@@ -129,7 +132,8 @@
             android:prompt="@string/hint_Motor"
             android:spinnerMode="dropdown"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="gone">
+            android:visibility="gone"
+            style="@android:style/Widget.Holo.Light.Spinner">
 
         </Spinner>
 
