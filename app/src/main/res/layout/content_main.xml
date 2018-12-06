@@ -143,7 +143,7 @@
 
         </Spinner>
 
-        <Button
+       <!--<Button
 
             android:id="@+id/btnBuscar"
             android:layout_width="match_parent"
@@ -157,7 +157,7 @@
             android:textColor="#2f7635"
             android:textSize="18dp">
 
-        </Button>
+        </Button>-->
 
 
     </RelativeLayout>
