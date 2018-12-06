@@ -8,10 +8,10 @@
             android:id="@+id/BusquedaPersonalisada"
             android:icon="@drawable/ic_search_black_24dp"
             android:title="Busqueda Personalizada" />
-        <item
+        <!--<item
             android:id="@+id/Ajustes"
             android:icon="@drawable/ic_build_black_24dp"
-            android:title="Ajustes" />
+            android:title="Ajustes" />-->
     </group>
     <item android:title="Contactos">
         <menu>

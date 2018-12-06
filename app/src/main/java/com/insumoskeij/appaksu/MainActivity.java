@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,7 +42,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.insumoskeij.appaksu.adapter.Adapter;
 import com.insumoskeij.appaksu.app.AppController;
-import com.insumoskeij.appaksu.fragment.FormBusquedaFragment;
 import com.insumoskeij.appaksu.interfaces.IcomunicaFragments;
 import com.insumoskeij.appaksu.model.Marca;
 import com.insumoskeij.appaksu.model.Modelo;
@@ -65,8 +63,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener,
-        IcomunicaFragments,
-        FormBusquedaFragment.OnFragmentInteractionListener {
+        IcomunicaFragments {
 
     ProgressDialog pDialog;
     List<Producto> listData = new ArrayList<Producto>();
@@ -930,10 +927,6 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
-                        /*tModeloCombo.setVisibility(View.VISIBLE);
-                        spModelo.setVisibility(View.VISIBLE);
-                        tMotorCombo.setVisibility(View.VISIBLE);
-                        spMotor.setVisibility(View.VISIBLE);*/
                         btnBuscar.setVisibility(View.VISIBLE);
                         list_view.setVisibility(View.GONE);
                     }
@@ -1032,9 +1025,9 @@ public class MainActivity extends AppCompatActivity
             list_view.setVisibility(View.GONE);
 
 
-        }else if (id == R.id.Ajustes) {
+        }/*else if (id == R.id.Ajustes) {
             /////////////////Ajustes////////////
-        }
+        }*/
         else if (id == R.id.instagram) {
             Uri uri = Uri.parse("https://instagram.com/aksuglobal");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -1060,9 +1053,10 @@ public class MainActivity extends AppCompatActivity
             Uri uri = Uri.parse("https://www.youtube.com/user/AKSUVZLA");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-
+        }else if (id == R.id.mail) {
+            Intent intent = new Intent(this, sendMail.class);
+            startActivity(intent);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -1070,12 +1064,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void enviarProducto(Producto producto) {
-
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
     }
 
