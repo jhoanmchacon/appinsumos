@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
     ListView list_view;
     String tag_json_obj = "json_obj_req";
 
-    Button btnBuscar;
+    //Button btnBuscar;
     RequestQueue request;
 
     boolean fragmentSelecionado = false;
@@ -144,6 +144,25 @@ public class MainActivity extends AppCompatActivity
             }
         });*/
 
+        FloatingActionButton fabSearch = findViewById(R.id.fabSearch);
+        fabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                //sendEmail();
+                if (txtAgregarMarca.isEmpty() && txtAgregarTprod.isEmpty()){
+                    Toast.makeText(getApplicationContext(), ("¡Debe seleccionar una opción para la búsqueda!"), Toast.LENGTH_SHORT).show();
+
+                }else {
+                    callData();
+                }
+            }
+        });
+
+
+
+
         FloatingActionButton clean = findViewById(R.id.fabClean);
         clean.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,11 +170,28 @@ public class MainActivity extends AppCompatActivity
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
 
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("AKSU GLOBAL")
+                        .setMessage("¿Desea repetir la búsqueda?")
+                        .setNegativeButton(android.R.string.cancel, null)// sin listener
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+// Salir
+                                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .show();
+
+                //Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                //startActivity(intent);
+                //finish();
             }
         });
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -292,11 +328,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        btnBuscar = findViewById(R.id.btnBuscar);
+        /*btnBuscar = findViewById(R.id.btnBuscar);
         request = Volley.newRequestQueue(MainActivity.this);
 
 
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
+       /* btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -307,7 +343,7 @@ public class MainActivity extends AppCompatActivity
                     callData();
                 }
             }
-        });
+        });*/
 
     }
 
@@ -618,7 +654,7 @@ public class MainActivity extends AppCompatActivity
             spMotor.setVisibility(View.GONE);
         }
 
-        btnBuscar.setVisibility(View.GONE);
+        //btnBuscar.setVisibility(View.GONE);
         list_view.setVisibility(View.VISIBLE);
 
         pDialog = new ProgressDialog(MainActivity.this);
@@ -730,7 +766,7 @@ public class MainActivity extends AppCompatActivity
                             spMotor.setVisibility(View.VISIBLE);
                             tMotorCombo.setVisibility(View.VISIBLE);
                         }
-                        btnBuscar.setVisibility(View.VISIBLE);
+                       // btnBuscar.setVisibility(View.VISIBLE);
                         list_view.setVisibility(View.GONE);
                     }
 
@@ -832,7 +868,7 @@ public class MainActivity extends AppCompatActivity
             list_view.setVisibility(View.VISIBLE);
         }
 
-        btnBuscar.setVisibility(View.GONE);
+        //btnBuscar.setVisibility(View.GONE);
 
 
         pDialog = new ProgressDialog(MainActivity.this);
@@ -927,7 +963,7 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
-                        btnBuscar.setVisibility(View.VISIBLE);
+                        //btnBuscar.setVisibility(View.VISIBLE);
                         list_view.setVisibility(View.GONE);
                     }
 
@@ -1021,7 +1057,7 @@ public class MainActivity extends AppCompatActivity
                 tMotorCombo.setVisibility(View.GONE);
                 spMotor.setVisibility(View.GONE);
             }
-            btnBuscar.setVisibility(View.VISIBLE);
+           // btnBuscar.setVisibility(View.VISIBLE);
             list_view.setVisibility(View.GONE);
 
 
