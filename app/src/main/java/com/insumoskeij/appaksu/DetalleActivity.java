@@ -1,7 +1,10 @@
 package com.insumoskeij.appaksu;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -25,7 +28,7 @@ public class DetalleActivity extends AppCompatActivity {
             txtDetallePeso, tDetallePeso,
             txtDetalleVeh, tDetalleVeh,
             tbMarca, tbModelo, tbanno, tbMotor, motor, tbHP, hp, mLimpiaP, tbMLimpiaP,
-            tbOMarca, tbOCod, OMarcas, oCod;
+            tbOMarca, tbOCod, OMarcas, tOMarcas, oCod;
     View lineaCodBarra, lineaMedida, lineaPeso;
     ImageView imgProd;
     RequestQueue request;
@@ -62,15 +65,41 @@ public class DetalleActivity extends AppCompatActivity {
         mLimpiaP = findViewById(R.id.mLimpiaP);
         tbMLimpiaP = findViewById(R.id.tbMLimpiaP);
 
-
+        tOMarcas = findViewById(R.id.tOMarcas);
         tbOMarca = findViewById(R.id.tbOMarca);
         tbOCod = findViewById(R.id.tbOCod);
         OMarcas = findViewById(R.id.oMarcas);
         oCod = findViewById(R.id.oCod);
 
 
-        request = Volley.newRequestQueue(getApplicationContext());
+        //request = Volley.newRequestQueue(getApplicationContext());
 
+        /*FloatingActionButton clean = findViewById(R.id.fabCleanDetalle);
+        clean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new AlertDialog.Builder(DetalleActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("AKSU GLOBAL")
+                        .setMessage("¿Desea repetir la búsqueda?")
+                        .setNegativeButton(android.R.string.cancel, null)// sin listener
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+// Salir
+                                Intent intent = new Intent(DetalleActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .show();
+
+                //Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                //startActivity(intent);
+                //finish();
+            }
+        });*/
 
         //GET INTENT
         Intent i = this.getIntent();
@@ -103,7 +132,7 @@ public class DetalleActivity extends AppCompatActivity {
 
         if (detalle.trim().length() > 0) {
             OMarcas.setVisibility(View.VISIBLE);
-            //txtOMarcas.setVisibility(View.VISIBLE);
+            tOMarcas.setVisibility(View.VISIBLE);
         }
 
         if (detalleCodBarra.trim().length() > 0) {

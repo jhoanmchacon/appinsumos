@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,9 +54,9 @@
                 android:id="@+id/tDetalles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight=".8"
-                android:text="Detalles"
+                android:text=" "
                 android:textColor="#bbbcba"
                 android:textSize="26sp"
                 android:textStyle="bold|italic" />
@@ -65,9 +66,9 @@
                 android:id="@+id/tDetallesVeh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight=".8"
-                android:text="APLICACIÓN"
+                android:text="APLICACIONES"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp"
                 android:textStyle="bold|italic"
@@ -85,7 +86,7 @@
                     android:layout_gravity="fill_horizontal"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:paddingLeft="5dp"
+                    android:paddingLeft="0dp"
                     android:paddingRight="15dp">
 
                     <TableRow
@@ -239,7 +240,7 @@
                 android:id="@+id/tOMarcas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight=".8"
                 android:text="REFERENCIAS DE OTRAS MARCAS"
                 android:textColor="@color/colorPrimary"
@@ -307,7 +308,7 @@
                 android:id="@+id/tCodBarra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight=".8"
                 android:text="CÓDIGO DE BARRA"
                 android:textColor="@color/colorPrimary"
@@ -337,7 +338,7 @@
                 android:id="@+id/tMedida"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight=".8"
                 android:text="MEDIDAS"
                 android:textColor="@color/colorPrimary"
@@ -364,10 +365,21 @@
                 android:visibility="gone" />
 
             <TextView
+                android:id="@+id/tEspacio1"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight=".8"
+                android:text=" "
+                android:textColor="#bbbcba"
+                android:textSize="26sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
                 android:id="@+id/tPeso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight=".8"
                 android:text="PESO"
                 android:textColor="@color/colorPrimary"
@@ -393,8 +405,18 @@
                 android:textSize="14sp"
                 android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/tEspacio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight=".8"
+                android:text=" "
+                android:textColor="#bbbcba"
+                android:textSize="26sp"
+                android:textStyle="bold|italic" />
+
         </LinearLayout>
     </ScrollView>
-
 
 </LinearLayout>
