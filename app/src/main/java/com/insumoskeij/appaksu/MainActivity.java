@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity
 
         if (!compruebaConexion(this.getApplicationContext()))
         {
-            Toast.makeText(getApplicationContext(), ("¡No hay conexión a internet!"), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), ("¡No hay conexión a internet!"), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, NoConnectActivity.class);
             startActivity(intent);
             finish();
@@ -666,7 +666,7 @@ public class MainActivity extends AppCompatActivity
         spTipoProducto.setVisibility(View.GONE);
         tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
-        imgLogo.setVisibility(View.GONE);
+       // imgLogo.setVisibility(View.GONE);
 
 
         if (spModelo.getVisibility()==View.VISIBLE ){
@@ -781,7 +781,7 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
-                        imgLogo.setVisibility(View.VISIBLE);
+                      //  imgLogo.setVisibility(View.VISIBLE);
 
                         if (!txtAgregarModelo.isEmpty()){
                             spModelo.setVisibility(View.VISIBLE);
@@ -849,6 +849,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        if (!compruebaConexion(getApplicationContext()))
+        {
+            Snackbar.make(list_view.getRootView(), "¡No hay conexión a internet!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            return false;
+        }
         cariData(query);
         return true;
     }
@@ -872,11 +878,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void cariData(final String keyword) {
+        tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
+        tMarcaCombo = findViewById(R.id.tMarcaCombo);
+        imgLogo = findViewById(R.id.imgLogo);
+
         tTipoProdCombo.setVisibility(View.GONE);
         spTipoProducto.setVisibility(View.GONE);
         tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
-        imgLogo.setVisibility(View.GONE);
+
+        tTipoProdCombo.setVisibility(View.GONE);
+        spTipoProducto.setVisibility(View.GONE);
+        tMarcaCombo.setVisibility(View.GONE);
+        spMarca.setVisibility(View.GONE);
+       // imgLogo.setVisibility(View.GONE);
 
 
         if (spModelo.getVisibility()==View.VISIBLE ){
@@ -988,7 +1003,7 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
-                        imgLogo.setVisibility(View.VISIBLE);
+                       // imgLogo.setVisibility(View.VISIBLE);
                         //btnBuscar.setVisibility(View.VISIBLE);
                         list_view.setVisibility(View.GONE);
                     }
@@ -1073,7 +1088,7 @@ public class MainActivity extends AppCompatActivity
             spTipoProducto.setVisibility(View.VISIBLE);
             tMarcaCombo.setVisibility(View.VISIBLE);
             spMarca.setVisibility(View.VISIBLE);
-            imgLogo.setVisibility(View.VISIBLE);
+           // imgLogo.setVisibility(View.VISIBLE);
 
             if (spModelo.getVisibility()==View.VISIBLE ){
                 tModeloCombo.setVisibility(View.GONE);

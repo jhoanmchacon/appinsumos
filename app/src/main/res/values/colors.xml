@@ -3,7 +3,7 @@
     <color name="colorPrimary">#163b19</color>
     <color name="colorPrimaryDark">#163b19</color>
     <color name="colorAccent">#f86716</color>
-    <color name="my_spinner_text_color">#ffffff</color>
+    <color name="text_color">#ffffff</color>
     <drawable name="fondo_toolbar">@drawable/fondo_app_2</drawable>
 
 </resources>

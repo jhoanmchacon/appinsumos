@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_splash);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         //LogoLaucher logoLaucher = new LogoLaucher();
         //logoLaucher.start();
 

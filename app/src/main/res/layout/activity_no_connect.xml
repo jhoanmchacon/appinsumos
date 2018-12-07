@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:layout_gravity="bottom|center"
-        android:background="#2f7635"
+        android:background="@color/colorPrimary"
         android:text="Reintentar"
         android:textColor="#fff"
         android:textSize="18dp"
