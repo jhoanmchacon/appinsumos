@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2f7635</color>
-    <color name="colorPrimaryDark">#2f7635</color>
+    <color name="colorPrimary">#163b19</color>
+    <color name="colorPrimaryDark">#163b19</color>
     <color name="colorAccent">#f86716</color>
     <color name="my_spinner_text_color">#ffffff</color>
     <drawable name="fondo_toolbar">@drawable/fondo_app_2</drawable>

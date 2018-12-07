@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context="com.insumoskeij.appaksu.MainActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -180,6 +179,7 @@
 
                     <View
                         android:layout_height="2dp"
+                        android:layout_width="300dp"
                         android:background="@color/colorAccent" />
 
                     <TableRow
@@ -418,5 +418,7 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <include layout="@layout/app_bar_main"></include>
 
 </LinearLayout>

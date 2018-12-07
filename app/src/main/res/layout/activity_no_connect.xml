@@ -11,21 +11,28 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_margin="50dp"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginBottom="0dp"
         android:src="@drawable/noconnect" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="¡No hay conexión a internet!"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="16dp"/>
 
     <Button
-
         android:id="@+id/btnReintentar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="#ffff"
+        android:layout_margin="15dp"
+        android:layout_gravity="bottom|center"
+        android:background="#2f7635"
         android:text="Reintentar"
-        android:textColor="#2f7635"
+        android:textColor="#fff"
         android:textSize="18dp"
-        android:layout_marginBottom="15dp"
         android:layout_alignParentBottom="true">
 
     </Button>

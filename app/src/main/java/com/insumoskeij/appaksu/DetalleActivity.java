@@ -27,7 +27,10 @@ public class DetalleActivity extends AppCompatActivity {
             txtDetalleMedida, tMedida,
             txtDetallePeso, tDetallePeso,
             txtDetalleVeh, tDetalleVeh,
-            tbMarca, tbModelo, tbanno, tbMotor, motor, tbHP, hp, mLimpiaP, tbMLimpiaP,
+            tbMarca, tbModelo, tbanno,
+            tbMotor, motor,
+            tbHP, hp, mLimpiaP,
+            tbMLimpiaP,
             tbOMarca, tbOCod, OMarcas, tOMarcas, oCod;
     View lineaCodBarra, lineaMedida, lineaPeso;
     ImageView imgProd;
@@ -158,9 +161,11 @@ public class DetalleActivity extends AppCompatActivity {
             motor.setVisibility(View.GONE);
             tbHP.setVisibility(View.GONE);
             hp.setVisibility(View.GONE);
+
             mLimpiaP.setVisibility(View.VISIBLE);
             tbMLimpiaP.setVisibility(View.VISIBLE);
 
+            tOMarcas.setVisibility(View.GONE);
             OMarcas.setVisibility(View.GONE);
             tbOMarca.setVisibility(View.GONE);
             oCod.setVisibility(View.GONE);
@@ -179,6 +184,7 @@ public class DetalleActivity extends AppCompatActivity {
             hp.setVisibility(View.GONE);
             mLimpiaP.setVisibility(View.GONE);
             tbMLimpiaP.setVisibility(View.GONE);
+            tOMarcas.setVisibility(View.GONE);
             OMarcas.setVisibility(View.GONE);
             tbOMarca.setVisibility(View.GONE);
             oCod.setVisibility(View.GONE);

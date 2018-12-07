@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -77,7 +79,14 @@ public class MainActivity extends AppCompatActivity
 
     boolean fragmentSelecionado = false;
 
+    /************Redireccion  pagina********/
+
+    ImageView imgLogoMenu;
+
+
+
     /*****Combo TIPO PRODUCTO****/
+    private ImageView imgLogo;
     private Spinner spTipoProducto;
     private TextView tTipoProdCombo;
     private ArrayList<TipoProducto> TprodList;
@@ -134,6 +143,18 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*imgLogoMenu = findViewById(R.id.imgLogoMenu);
+        imgLogoMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://www.aksuglobal.com");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });*/
+
+
+
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,9 +171,15 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                //sendEmail();
-                if (txtAgregarMarca.isEmpty() && txtAgregarTprod.isEmpty()){
-                    Toast.makeText(getApplicationContext(), ("¡Debe seleccionar una opción para la búsqueda!"), Toast.LENGTH_SHORT).show();
+
+                if (!compruebaConexion(getApplicationContext()))
+                {
+                    Snackbar.make(view, "¡No hay conexión a internet!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }else if (txtAgregarMarca.isEmpty() && txtAgregarTprod.isEmpty()){
+                    //Toast.makeText(getApplicationContext(), ("¡Debe seleccionar una opción para la búsqueda!"), Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "¡Debe seleccionar una opción para la búsqueda!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
 
                 }else {
                     callData();
@@ -160,38 +187,34 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-
-
         FloatingActionButton clean = findViewById(R.id.fabClean);
         clean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-
-                new AlertDialog.Builder(MainActivity.this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("AKSU GLOBAL")
-                        .setMessage("¿Desea repetir la búsqueda?")
-                        .setNegativeButton(android.R.string.cancel, null)// sin listener
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-// Salir
-                                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .show();
-
-                //Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                //startActivity(intent);
-                //finish();
+                if (!compruebaConexion(getApplicationContext()))
+                {
+                    Snackbar.make(view, "¡No hay conexión a internet!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }else {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("AKSU GLOBAL")
+                            .setIcon(R.drawable.aksu_icon)
+                            .setMessage("¿Desea repetir la búsqueda?")
+                            .setNegativeButton(android.R.string.cancel, null)// sin listener
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {// Salir
+                                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .show();
+                }
             }
         });
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -637,11 +660,13 @@ public class MainActivity extends AppCompatActivity
     private void callData() {
         tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
         tMarcaCombo = findViewById(R.id.tMarcaCombo);
+        imgLogo = findViewById(R.id.imgLogo);
 
         tTipoProdCombo.setVisibility(View.GONE);
         spTipoProducto.setVisibility(View.GONE);
         tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
+        imgLogo.setVisibility(View.GONE);
 
 
         if (spModelo.getVisibility()==View.VISIBLE ){
@@ -756,6 +781,7 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
+                        imgLogo.setVisibility(View.VISIBLE);
 
                         if (!txtAgregarModelo.isEmpty()){
                             spModelo.setVisibility(View.VISIBLE);
@@ -846,13 +872,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void cariData(final String keyword) {
-        tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
-        tMarcaCombo = findViewById(R.id.tMarcaCombo);
-
         tTipoProdCombo.setVisibility(View.GONE);
         spTipoProducto.setVisibility(View.GONE);
         tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
+        imgLogo.setVisibility(View.GONE);
+
 
         if (spModelo.getVisibility()==View.VISIBLE ){
             tModeloCombo.setVisibility(View.GONE);
@@ -963,6 +988,7 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
+                        imgLogo.setVisibility(View.VISIBLE);
                         //btnBuscar.setVisibility(View.VISIBLE);
                         list_view.setVisibility(View.GONE);
                     }
@@ -1047,6 +1073,7 @@ public class MainActivity extends AppCompatActivity
             spTipoProducto.setVisibility(View.VISIBLE);
             tMarcaCombo.setVisibility(View.VISIBLE);
             spMarca.setVisibility(View.VISIBLE);
+            imgLogo.setVisibility(View.VISIBLE);
 
             if (spModelo.getVisibility()==View.VISIBLE ){
                 tModeloCombo.setVisibility(View.GONE);
@@ -1109,7 +1136,7 @@ public class MainActivity extends AppCompatActivity
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.aksu_icon)
                     .setTitle("AKSU GLOBAL")
                     .setMessage("¿Está seguro que desea salir?")
                     .setNegativeButton(android.R.string.cancel, null)// sin listener
@@ -1128,4 +1155,24 @@ public class MainActivity extends AppCompatActivity
 // para las demas cosas, se reenvia el evento al listener habitual
         return super.onKeyDown(keyCode, event);
     }
+    public void imageClick(View view) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setIcon(R.drawable.aksu_icon)
+                .setTitle("AKSU GLOBAL")
+                .setMessage("¿Desea visitar nuestra pagina Web?")
+                .setNegativeButton(android.R.string.cancel, null)// sin listener
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+// S
+                        Uri uri = Uri.parse("http://www.aksuglobal.com");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+
+                    }
+                })
+                .show();
+// Salir
+    }
+
 }
