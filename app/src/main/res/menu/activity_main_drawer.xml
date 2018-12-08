@@ -7,13 +7,13 @@
         <item
             android:id="@+id/BusquedaPersonalisada"
             android:icon="@drawable/ic_search_black_24dp"
-            android:title="Busqueda Personalizada" />
+            android:title="Búsqueda Personalizada" />
         <!--<item
             android:id="@+id/Ajustes"
             android:icon="@drawable/ic_build_black_24dp"
             android:title="Ajustes" />-->
     </group>
-    <item android:title="Contactos">
+    <item android:title="Síguenos">
         <menu>
             <item
                 android:id="@+id/instagram"
@@ -30,11 +30,11 @@
             <item
                 android:id="@+id/youtube"
                 android:icon="@drawable/ic_menu_youtube"
-                android:title="Youtube" />
+                android:title="YouTube" />
             <item
                 android:id="@+id/mail"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Email" />
+                android:icon="@drawable/ic_sms_black_24dp"
+                android:title="Contáctanos" />
         </menu>
     </item>
 

@@ -5,72 +5,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
     tools:context=".sendMail">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contáctanos"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/toEmailEditText"
+    <!-- Toolbar -->
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/fondo_app_2"
+        app:popupTheme="@style/AppTheme.PopupOverlay" >
 
-    <EditText
-        android:id="@+id/subjectEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Asunto"
-        android:inputType="text"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/messageEditText"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:hint="Mensaje"
-        android:inputType="textMultiLine"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/aksu_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aksu Global"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
-        >
-
-        <Button
-            android:id="@+id/clearButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear"
-            android:textColor="@android:color/white"
-            android:background="@color/colorPrimary"
-            android:layout_alignParentBottom="true"/>
+            android:text="Contáctanos"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/sendMessageButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content"
-            android:text="Send"
-            android:textColor="@android:color/white"
-            android:background="@color/colorPrimary"
-            android:layout_alignParentBottom="true"/>
+        <EditText
+            android:id="@+id/toEmailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:hint="Correo Electrónico"
+            android:inputType="textEmailAddress"/>
+
+        <EditText
+            android:id="@+id/subjectEditText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="Asunto"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="Mensaje"
+            android:inputType="textMultiLine"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_margin="15dp"
+                android:layout_height="wrap_content"
+                android:text="Limpiar"
+                android:textColor="@color/colorPrimary"
+                android:background="#d9d9d9"
+                android:layout_alignParentBottom="true"/>
+
+            <Button
+                android:id="@+id/sendMessageButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_margin="15dp"
+                android:layout_height="wrap_content"
+                android:text="Enviar"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimary"
+                android:layout_alignParentBottom="true"/>
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
