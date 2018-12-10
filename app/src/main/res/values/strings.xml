@@ -106,6 +106,7 @@
     <string name="hint_tProd">Tipo de Producto</string>
     <string name="hint_Marca">Marca</string>
     <string name="hint_Modelo">Modelo</string>
+    <string name="hint_Annos">Años</string>
     <string name="hint_Motor">Motor</string>
 
 

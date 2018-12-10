@@ -26,9 +26,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -36,15 +36,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.insumoskeij.appaksu.adapter.Adapter;
 import com.insumoskeij.appaksu.app.AppController;
 import com.insumoskeij.appaksu.interfaces.IcomunicaFragments;
+import com.insumoskeij.appaksu.model.Anno;
 import com.insumoskeij.appaksu.model.Marca;
 import com.insumoskeij.appaksu.model.Modelo;
 import com.insumoskeij.appaksu.model.Motor;
@@ -74,11 +73,6 @@ public class MainActivity extends AppCompatActivity
     ListView list_view;
     String tag_json_obj = "json_obj_req";
 
-    //Button btnBuscar;
-    RequestQueue request;
-
-    boolean fragmentSelecionado = false;
-
     /************Redireccion  pagina********/
 
     ImageView imgLogoMenu;
@@ -103,6 +97,12 @@ public class MainActivity extends AppCompatActivity
     private TextView tModeloCombo;
     private String txtAgregarModelo = "";
     private ArrayList<Modelo> ModeloList;
+
+    /*****Combo Años****/
+    private Spinner spAnnos;
+    private TextView tAnnoCombo;
+    private String txtAgregarAnno = "";
+    private ArrayList<Anno> AnnoList;
 
     /*****Combo MOTOR****/
     private Spinner spMotor;
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity
                             .setAction("Action", null).show();
 
                 }else {
-                    callData();
+                   callData();
                 }
             }
         });
@@ -317,6 +317,31 @@ public class MainActivity extends AppCompatActivity
 
                 txtAgregarModelo = ModeloList.get(i).getId_modelo();
                 if (!txtAgregarModelo.isEmpty()) {
+                    AnnoList.clear();
+                    new GetAnno().execute();
+
+                    tAnnoCombo = findViewById(R.id.tAnnoCombo);
+                    spAnnos.setVisibility(View.VISIBLE);
+                    tAnnoCombo.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        /****COMBO AÑOS***/
+        spAnnos = findViewById(R.id.spAnnos);
+        AnnoList = new ArrayList<Anno>();
+
+        spAnnos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                txtAgregarAnno = AnnoList.get(i).getId_anno();
+                if (!txtAgregarAnno.isEmpty()) {
                     MotorList.clear();
                     new GetMotor().execute();
 
@@ -588,6 +613,70 @@ public class MainActivity extends AppCompatActivity
     }
     /**************FIN CARGA DE MODELO***********************************************************************************/
 
+    /*************CARGANDO COMBO AÑOS**************************************************************************************/
+    private void cargarComboAnnos() {
+        List<String> lables = new ArrayList<String>();
+        for (int i = 0; i < AnnoList.size(); i++) {
+            lables.add(AnnoList.get(i).getAnno());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(MainActivity.this,
+                R.layout.spinner_style, lables);
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spAnnos.setAdapter(spinnerAdapter);
+        spinnerAdapter.notifyDataSetChanged();
+    }
+
+    private class GetAnno extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ServiceHandler jsonParser = new ServiceHandler();
+            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMAnno.php?opc=1&marca=" + txtAgregarMarca + "&modelo=" +txtAgregarModelo, ServiceHandler.GET);
+            System.out.println("urlllll" + "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMAnno.php?opc=1&marca=" + txtAgregarMarca + "&modelo=" +txtAgregarModelo);
+            Log.e("Response: ", "> " + json);
+
+            if (json != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(json);
+                    if (jsonObj != null ) {
+                        JSONArray annos = jsonObj.getJSONArray("data");
+                        int i = 0;
+                        AnnoList.clear();
+                        for ( i = 0; i < annos.length(); i++) {
+                            JSONObject catObj = (JSONObject) annos.get(i);
+                            //System.out.println(catObj);
+                            Anno cat = new Anno(catObj.getString("id"),catObj.getString("desc"));
+                            //System.out.println(cat);
+                            AnnoList.add(cat);
+                        }
+                        if (i==0){
+                            Anno cat = new Anno(" "," ");
+                            //System.out.println(cat);
+                            AnnoList.add(cat);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            cargarComboAnnos();
+        }
+    }
+
     /*************CARGANDO COMBO MOTOR**************************************************************************************/
     private void cargarComboMotor() {
         List<String> lables = new ArrayList<String>();
@@ -605,16 +694,13 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-              /*  progreso = new ProgressDialog(getContext());
-                progreso.setMessage("Cargando compbos..");
-                progreso.setCancelable(false);
-                progreso.show();*/
+
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
             ServiceHandler jsonParser = new ServiceHandler();
-            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMMotor.php?opc=1&modelo=" + txtAgregarModelo, ServiceHandler.GET);
+            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMMotor.php?opc=1&modelo=" + txtAgregarModelo + "&annos="+txtAgregarAnno.replace(" ","%20"), ServiceHandler.GET);
             Log.e("Response: ", "> " + json);
             if (json != null) {
                 try {
@@ -672,6 +758,11 @@ public class MainActivity extends AppCompatActivity
         if (spModelo.getVisibility()==View.VISIBLE ){
             tModeloCombo.setVisibility(View.GONE);
             spModelo.setVisibility(View.GONE);
+        }
+
+        if (spAnnos.getVisibility()==View.VISIBLE ){
+            tAnnoCombo.setVisibility(View.GONE);
+            spAnnos.setVisibility(View.GONE);
         }
 
         if (spMotor.getVisibility()==View.VISIBLE){
@@ -788,6 +879,11 @@ public class MainActivity extends AppCompatActivity
                             tModeloCombo.setVisibility(View.VISIBLE);
                         }
 
+                        if (!txtAgregarAnno.isEmpty()){
+                            spAnnos.setVisibility(View.VISIBLE);
+                            tAnnoCombo.setVisibility(View.VISIBLE);
+                        }
+
                         if(!txtAgregarMotor.isEmpty()){
                             spMotor.setVisibility(View.VISIBLE);
                             tMotorCombo.setVisibility(View.VISIBLE);
@@ -855,6 +951,12 @@ public class MainActivity extends AppCompatActivity
                     .setAction("Action", null).show();
             return false;
         }
+
+        /*****funcion par aocultar teclado ***/
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputMethodManager.hideSoftInputFromWindow(list_view.getWindowToken(), 0);
+        /********fin*********/
         cariData(query);
         return true;
     }
@@ -897,6 +999,11 @@ public class MainActivity extends AppCompatActivity
         if (spModelo.getVisibility()==View.VISIBLE ){
             tModeloCombo.setVisibility(View.GONE);
             spModelo.setVisibility(View.GONE);
+        }
+
+        if (spAnnos.getVisibility()==View.VISIBLE ){
+            tAnnoCombo.setVisibility(View.GONE);
+            spAnnos.setVisibility(View.GONE);
         }
 
         if (spMotor.getVisibility()==View.VISIBLE){
@@ -1093,6 +1200,11 @@ public class MainActivity extends AppCompatActivity
             if (spModelo.getVisibility()==View.VISIBLE ){
                 tModeloCombo.setVisibility(View.GONE);
                 spModelo.setVisibility(View.GONE);
+            }
+
+            if (spAnnos.getVisibility()==View.VISIBLE ){
+                tAnnoCombo.setVisibility(View.GONE);
+                spAnnos.setVisibility(View.GONE);
             }
 
             if (spMotor.getVisibility()==View.VISIBLE){

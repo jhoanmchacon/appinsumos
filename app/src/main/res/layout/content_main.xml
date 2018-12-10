@@ -120,10 +120,36 @@
         </Spinner>
 
         <TextView
-            android:id="@+id/tMotorCombo"
+            android:id="@+id/tAnnoCombo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spModelo"
+            android:layout_marginLeft="10dp"
+            android:text="AÑOS"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <Spinner
+            android:id="@+id/spAnnos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tAnnoCombo"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:prompt="@string/hint_Annos"
+            android:spinnerMode="dropdown"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:visibility="gone">
+
+        </Spinner>
+
+        <TextView
+            android:id="@+id/tMotorCombo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spAnnos"
             android:layout_marginLeft="10dp"
             android:text="MOTOR"
             android:textColor="#ffffff"
