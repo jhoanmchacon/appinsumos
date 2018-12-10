@@ -456,6 +456,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <include layout="@layout/app_bar_main"></include>
-
 </LinearLayout>

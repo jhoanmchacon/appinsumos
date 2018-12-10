@@ -1,8 +1,14 @@
 package com.insumoskeij.appaksu;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +47,25 @@ public class sendMail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_mail);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /******Cambio de icono de Fecha atras toolbar****/
+        final Drawable upArrow = ResourcesCompat.getDrawable(
+                getResources(),
+                R.drawable.ic_arrow_back_black_24dp, //this is the <- arrow from android resources. Change this to the thing you want.
+                null);
+        assert upArrow != null;
+        upArrow.setColorFilter(
+                ContextCompat.getColor(
+                        getApplicationContext(),
+                        R.color.text_color // change this to the color you want (or remove the setColorFilter call)
+                ),
+                PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
+        /************fin cambio de icono****/
 
         //assign views
         toEmailEditText = findViewById(R.id.toEmailEditText);
@@ -64,11 +88,17 @@ public class sendMail extends AppCompatActivity {
                     String message = messageEditText.getText().toString();
 
                     if(to.isEmpty()){
-                        Toast.makeText(getBaseContext(), "You must enter a recipient email", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), "Debe ingresar un correo electrónico.", Toast.LENGTH_LONG).show();
+                        Snackbar.make(v, "Debe ingresar un correo electrónico.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }else if(subject.isEmpty()){
-                        Toast.makeText(getBaseContext(), "You must enter a Subject", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), "Debe ingresar un Asunto.", Toast.LENGTH_LONG).show();
+                        Snackbar.make(v, "Debe ingresar un Asunto.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }else if(message.isEmpty()){
-                        Toast.makeText(getBaseContext(), "You must enter a message", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), "Debe introducir un mensaje.", Toast.LENGTH_LONG).show();
+                        Snackbar.make(v, "Debe introducir un mensaje.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }else {
                         //everything is filled out
                         //send email
