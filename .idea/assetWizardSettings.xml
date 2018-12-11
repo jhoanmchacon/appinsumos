@@ -33,7 +33,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_search" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\administrator\Downloads\Fondo App - Aksu.jpg" />
+                                      <entry key="outputName" value="fondo_app2" />
                                     </map>
                                   </option>
                                 </PersistentState>

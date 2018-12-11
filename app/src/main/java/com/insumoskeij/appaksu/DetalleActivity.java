@@ -33,8 +33,9 @@ public class DetalleActivity extends AppCompatActivity {
             txtDetalleVeh, tDetalleVeh,
             tbMarca, tbModelo, tbanno,
             tbMotor, motor,
-            tbHP, hp, mLimpiaP,
-            tbMLimpiaP,
+            tbHP, hp,
+            mLimpiaP, tbMLimpiaP,
+            tbIluminacion,iluminacion,
             tbOMarca, tbOCod, OMarcas, tOMarcas, oCod;
     View lineaCodBarra, lineaMedida, lineaPeso;
     ImageView imgProd;
@@ -88,6 +89,8 @@ public class DetalleActivity extends AppCompatActivity {
         hp = findViewById(R.id.HP);
         mLimpiaP = findViewById(R.id.mLimpiaP);
         tbMLimpiaP = findViewById(R.id.tbMLimpiaP);
+        tbIluminacion = findViewById(R.id.tbIluminacion);
+        iluminacion = findViewById(R.id.iluminacion);
 
         tOMarcas = findViewById(R.id.tOMarcas);
         tbOMarca = findViewById(R.id.tbOMarca);
@@ -145,6 +148,7 @@ public class DetalleActivity extends AppCompatActivity {
         String detalleMotor = i.getExtras().getString("MOTOR");
         String detalleHP = i.getExtras().getString("DETALLEHP");
         String detalleMLimpiaP = i.getExtras().getString("MEDIDALIMPIAP");
+        String detalleIluminacion = i.getExtras().getString("ILUMINACION");
 
         String Omarcas = i.getExtras().getString("OMARCAS");
         String Ocodigo = i.getExtras().getString("OCODIGO");
@@ -203,13 +207,20 @@ public class DetalleActivity extends AppCompatActivity {
             motor.setVisibility(View.GONE);
             tbHP.setVisibility(View.GONE);
             hp.setVisibility(View.GONE);
-            mLimpiaP.setVisibility(View.GONE);
-            tbMLimpiaP.setVisibility(View.GONE);
+
+            iluminacion.setVisibility(View.VISIBLE);
+            tbIluminacion.setVisibility(View.VISIBLE);
+
             tOMarcas.setVisibility(View.GONE);
             OMarcas.setVisibility(View.GONE);
             tbOMarca.setVisibility(View.GONE);
             oCod.setVisibility(View.GONE);
             tbOCod.setVisibility(View.GONE);
+            tMedida.setVisibility(View.GONE);
+            txtDetalleMedida.setVisibility(View.GONE);
+            lineaMedida.setVisibility(View.GONE);
+            lineaPeso.setVisibility(View.GONE);
+            lineaCodBarra.setVisibility(View.GONE);
         }
 
 
@@ -228,6 +239,7 @@ public class DetalleActivity extends AppCompatActivity {
         tbMotor.setText(Html.fromHtml(detalleMotor));
         tbHP.setText(Html.fromHtml(detalleHP));
         tbMLimpiaP.setText(Html.fromHtml(detalleMLimpiaP));
+        tbIluminacion.setText(Html.fromHtml(detalleIluminacion));
 
         tbOMarca.setText(Html.fromHtml(Omarcas));
         tbOCod.setText(Html.fromHtml(Ocodigo));

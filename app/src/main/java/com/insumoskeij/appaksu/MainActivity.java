@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity
     public static final  String TAG_DETALLE_O_MARCA = "r_desc_marca_prod";
     public static final  String TAG_DETALLE_O_COD = "r_cod_prod_marca";
     public static final  String TAG_MEDIDA_L_P = "v_medidas_limpia_parabrisas";
+    public static final String TAG_ILUMINACION = "v_iluminacion";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -293,9 +294,16 @@ public class MainActivity extends AppCompatActivity
                     spModelo.setVisibility(View.VISIBLE);
                     tModeloCombo.setVisibility(View.VISIBLE);
 
+                    if (spAnnos.getVisibility()==View.VISIBLE){
+                        spAnnos.setVisibility(View.GONE);
+                        tAnnoCombo.setVisibility(View.GONE);
+                        txtAgregarAnno="";
+                    }
+
                     if (spMotor.getVisibility()==View.VISIBLE){
                     spMotor.setVisibility(View.GONE);
                     tMotorCombo.setVisibility(View.GONE);
+                    txtAgregarMotor="";
                     }
                 }
             }
@@ -323,6 +331,12 @@ public class MainActivity extends AppCompatActivity
                     tAnnoCombo = findViewById(R.id.tAnnoCombo);
                     spAnnos.setVisibility(View.VISIBLE);
                     tAnnoCombo.setVisibility(View.VISIBLE);
+
+                    if (spMotor.getVisibility()==View.VISIBLE){
+                        spMotor.setVisibility(View.GONE);
+                        tMotorCombo.setVisibility(View.GONE);
+                        txtAgregarMotor="";
+                    }
 
                 }
             }
@@ -778,7 +792,10 @@ public class MainActivity extends AppCompatActivity
         pDialog.setMessage("Cargando...");
         pDialog.show();
 
-        String url_data = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto=" + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo + "&motor=" + txtAgregarMotor;
+        String url_data = "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlBusqueda.php?opc=1&pais=1&tipoProducto="
+                + txtAgregarTprod + "&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo +
+                "&annos=" + txtAgregarAnno.replace(" ","%20") + "&motor=" + txtAgregarMotor;
+        System.out.println("ttt "+ url_data);
         listData.clear();
         adapter.notifyDataSetChanged();
        // swipe.setRefreshing(true);
@@ -811,6 +828,7 @@ public class MainActivity extends AppCompatActivity
                             String txtAnno = "";
                             String txtHp = "";
                             String txtMLimpiaP="";
+                            String txtIluminacion="";
                             String txtOMarca="";
                             String txtOCod="";
 
@@ -827,6 +845,7 @@ public class MainActivity extends AppCompatActivity
                                 txtAnno = txtAnno + obj2.getString(TAG_ANNO);
                                 txtHp = txtHp + obj2.getString(TAG_KW);
                                 txtMLimpiaP = txtMLimpiaP + obj2.getString(TAG_MEDIDA_L_P);
+                                txtIluminacion = txtIluminacion + obj2.getString(TAG_ILUMINACION);
 
 
                             }
@@ -852,6 +871,7 @@ public class MainActivity extends AppCompatActivity
                             data.setTxtKwPotencia(txtHp);
                             data.setTxtAnno(txtAnno);
                             data.setTxtMedidaLP(txtMLimpiaP);
+                            data.setTxtIluminacion(txtIluminacion);
 
                             data.setTxtTipoProd(obj.getString(TAG_TIPO_PROD));
                             data.setTxtCodigoProd(obj.getString(TAG_CODIGO));
@@ -1050,6 +1070,7 @@ public class MainActivity extends AppCompatActivity
                             String txtAnno = "";
                             String txtHp = "";
                             String txtMLimpiaP="";
+                            String txtIluminacion="";
                             String txtOMarca="";
                             String txtOCod="";
 
@@ -1066,6 +1087,7 @@ public class MainActivity extends AppCompatActivity
                                 txtAnno = txtAnno + obj2.getString(TAG_ANNO);
                                 txtHp = txtHp + obj2.getString(TAG_KW);
                                 txtMLimpiaP = txtMLimpiaP + obj2.getString(TAG_MEDIDA_L_P);
+                                txtIluminacion = txtIluminacion +obj2.getString(TAG_ILUMINACION);
 
                             }
 
@@ -1090,6 +1112,7 @@ public class MainActivity extends AppCompatActivity
                             data.setTxtKwPotencia(txtHp);
                             data.setTxtAnno(txtAnno);
                             data.setTxtMedidaLP(txtMLimpiaP);
+                            data.setTxtIluminacion(txtIluminacion);
 
                             data.setTxtTipoProd(obj.getString(TAG_TIPO_PROD));
                             data.setTxtCodigoProd(obj.getString(TAG_CODIGO));

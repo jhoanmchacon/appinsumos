@@ -12,6 +12,7 @@ public class Producto {
     private String txtDetalleCodBarra;
     private String txtDetalleMedida;
     private String txtMedidaLP;
+    private String txtIluminacion;
     private String txtDetallePeso;
     private String txtAnno;
     private String txtCodigoProd;
@@ -19,14 +20,14 @@ public class Producto {
     private Bitmap imgProd;
     private String rutaImg;
     private String rutaImg_2;
-    private  String txtDetalleVeh;
-    private  String txtDetalleOMarca;
+    private String txtDetalleVeh;
+    private String txtDetalleOMarca;
     private String txtDetalleOCod;
     private String txtDetalleAnno;
     private String txtDetalleMotor;
     private String getTxtDetalleHP;
 
-    public Producto(String txtserie, String txtModelo, String txtMotor, String txtMarca, String txtKwPotencia, String txtDetalle, String txtDetalleCodBarra, String txtDetalleMedida, String txtMedidaLP, String txtDetallePeso, String txtAnno, String txtCodigoProd, String txtTipoProd, Bitmap imgProd, String rutaImg, String rutaImg_2, String txtDetalleVeh, String txtDetalleOMarca, String txtDetalleOCod, String txtDetalleAnno, String txtDetalleMotor, String getTxtDetalleHP) {
+    public Producto(String txtserie, String txtModelo, String txtMotor, String txtMarca, String txtKwPotencia, String txtDetalle, String txtDetalleCodBarra, String txtDetalleMedida, String txtMedidaLP, String txtIluminacion, String txtDetallePeso, String txtAnno, String txtCodigoProd, String txtTipoProd, String rutaImg, String rutaImg_2, String txtDetalleVeh, String txtDetalleOMarca, String txtDetalleOCod, String txtDetalleAnno, String txtDetalleMotor, String getTxtDetalleHP) {
         this.txtserie = txtserie;
         this.txtModelo = txtModelo;
         this.txtMotor = txtMotor;
@@ -36,11 +37,11 @@ public class Producto {
         this.txtDetalleCodBarra = txtDetalleCodBarra;
         this.txtDetalleMedida = txtDetalleMedida;
         this.txtMedidaLP = txtMedidaLP;
+        this.txtIluminacion = txtIluminacion;
         this.txtDetallePeso = txtDetallePeso;
         this.txtAnno = txtAnno;
         this.txtCodigoProd = txtCodigoProd;
         this.txtTipoProd = txtTipoProd;
-        this.imgProd = imgProd;
         this.rutaImg = rutaImg;
         this.rutaImg_2 = rutaImg_2;
         this.txtDetalleVeh = txtDetalleVeh;
@@ -51,23 +52,47 @@ public class Producto {
         this.getTxtDetalleHP = getTxtDetalleHP;
     }
 
-    public Producto () {
+    public Producto() {
     }
 
-    public String getTxtMedidaLP() {
-        return txtMedidaLP;
-    }
-
-    public void setTxtMedidaLP(String txtMedidaLP) {
-        this.txtMedidaLP = txtMedidaLP;
-    }
-
-    public String getTxtSerie() {
+    public String getTxtserie() {
         return txtserie;
     }
 
     public void setTxtserie(String txtserie) {
         this.txtserie = txtserie;
+    }
+
+    public String getTxtModelo() {
+        return txtModelo;
+    }
+
+    public void setTxtModelo(String txtModelo) {
+        this.txtModelo = txtModelo;
+    }
+
+    public String getTxtMotor() {
+        return txtMotor;
+    }
+
+    public void setTxtMotor(String txtMotor) {
+        this.txtMotor = txtMotor;
+    }
+
+    public String getTxtMarca() {
+        return txtMarca;
+    }
+
+    public void setTxtMarca(String txtMarca) {
+        this.txtMarca = txtMarca;
+    }
+
+    public String getTxtKwPotencia() {
+        return txtKwPotencia;
+    }
+
+    public void setTxtKwPotencia(String txtKwPotencia) {
+        this.txtKwPotencia = txtKwPotencia;
     }
 
     public String getTxtDetalle() {
@@ -94,48 +119,28 @@ public class Producto {
         this.txtDetalleMedida = txtDetalleMedida;
     }
 
+    public String getTxtMedidaLP() {
+        return txtMedidaLP;
+    }
+
+    public void setTxtMedidaLP(String txtMedidaLP) {
+        this.txtMedidaLP = txtMedidaLP;
+    }
+
+    public String getTxtIluminacion() {
+        return txtIluminacion;
+    }
+
+    public void setTxtIluminacion(String txtIluminacion) {
+        this.txtIluminacion = txtIluminacion;
+    }
+
     public String getTxtDetallePeso() {
         return txtDetallePeso;
     }
 
     public void setTxtDetallePeso(String txtDetallePeso) {
         this.txtDetallePeso = txtDetallePeso;
-    }
-
-    public String getTxtMarca() {
-        return txtMarca;
-    }
-
-    public void setTxtMarca(String txtMarca) {
-        this.txtMarca = txtMarca;
-    }
-
-    public String getTxtModelo() {
-        return txtModelo;
-    }
-
-    public void setTxtModelo(String txtModelo) {
-        this.txtModelo = txtModelo;
-    }
-
-    public String getTxtMotor() {
-        return txtMotor;
-    }
-
-    public void setTxtMotor(String txtMotor) {
-        this.txtMotor = txtMotor;
-    }
-
-    public String getTxtserie() {
-        return txtserie;
-    }
-
-    public String getTxtKwPotencia() {
-        return txtKwPotencia;
-    }
-
-    public void setTxtKwPotencia(String txtKwPotencia) {
-        this.txtKwPotencia = txtKwPotencia;
     }
 
     public String getTxtAnno() {
@@ -146,10 +151,13 @@ public class Producto {
         this.txtAnno = txtAnno;
     }
 
-    public String getTxtCodigoProd() {return txtCodigoProd;
+    public String getTxtCodigoProd() {
+        return txtCodigoProd;
     }
 
-    public void setTxtCodigoProd(String txtCodigoProd) {this.txtCodigoProd = txtCodigoProd; }
+    public void setTxtCodigoProd(String txtCodigoProd) {
+        this.txtCodigoProd = txtCodigoProd;
+    }
 
     public String getTxtTipoProd() {
         return txtTipoProd;
@@ -183,9 +191,12 @@ public class Producto {
         this.rutaImg_2 = rutaImg_2;
     }
 
-    public String getTxtDetalleVeh() { return txtDetalleVeh;  }
+    public String getTxtDetalleVeh() {
+        return txtDetalleVeh;
+    }
 
-    public void setTxtDetalleVeh(String txtDetalleVeh) { this.txtDetalleVeh = txtDetalleVeh;
+    public void setTxtDetalleVeh(String txtDetalleVeh) {
+        this.txtDetalleVeh = txtDetalleVeh;
     }
 
     public String getTxtDetalleOMarca() {
@@ -227,7 +238,5 @@ public class Producto {
     public void setGetTxtDetalleHP(String getTxtDetalleHP) {
         this.getTxtDetalleHP = getTxtDetalleHP;
     }
-
-
 }
 

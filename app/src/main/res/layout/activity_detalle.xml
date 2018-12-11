@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/fondo_app_2"
+        android:background="@drawable/fondo_app"
         app:popupTheme="@style/AppTheme.PopupOverlay" >
 
         <LinearLayout
@@ -200,6 +200,19 @@
                             android:visibility="gone" />
 
                         <TextView
+                            android:id="@+id/iluminacion"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:paddingLeft="15dp"
+                            android:scrollbars="none"
+                            android:text="Iluminación"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold|italic"
+                            android:visibility="gone" />
+
+                        <TextView
                             android:id="@+id/otros"
                             android:layout_width="15dp"
                             android:layout_height="wrap_content"
@@ -247,7 +260,7 @@
                             android:id="@+id/tbAnno"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:gravity="left"
                             android:paddingLeft="5dp"
                             android:text="Años" />
 
@@ -266,6 +279,14 @@
                             android:gravity="left"
                             android:paddingLeft="20dp"
                             android:text="tbMLimpiaP"
+                            android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/tbIluminacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:paddingLeft="20dp"
+                            android:text="tbIluminacion"
                             android:visibility="gone" />
                     </TableRow>
 

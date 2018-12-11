@@ -7,20 +7,13 @@
     tools:context=".SplashActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal|center_vertical"
-    android:background="#000">
+    android:background="@color/colorPrimary">
 
-    <!--<ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/aksu_icon"
-        android:id="@+id/aksuLogo"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        />-->
+  >
     <VideoView
         android:id="@+id/video"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>
