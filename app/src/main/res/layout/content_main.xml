@@ -50,7 +50,7 @@
             android:text="TIPO DE PRODUCTO"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             android:visibility="visible" />
 
         <Spinner
@@ -76,7 +76,7 @@
             android:text="MARCA"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             android:visibility="visible" />
 
 
@@ -102,7 +102,7 @@
             android:text="MODELO"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             android:visibility="gone" />
 
         <Spinner
@@ -128,7 +128,7 @@
             android:text="AÑOS"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             android:visibility="gone" />
 
         <Spinner
@@ -154,7 +154,7 @@
             android:text="MOTOR"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             android:visibility="gone" />
 
         <Spinner

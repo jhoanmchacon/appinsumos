@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/fondo_app"
+    android:background="@drawable/fondo_app_menu"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -18,7 +18,7 @@
         android:layout_height="80dp"
         android:layout_gravity="bottom|left"
         android:contentDescription="@string/nav_header_desc"
-        android:src="@drawable/logo_aksu"
+        android:src="@drawable/logoaksunaranjaconsombra"
         android:clickable="true"
         android:onClick="imageClick"/>
 

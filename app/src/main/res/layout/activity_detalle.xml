@@ -8,12 +8,11 @@
     tools:context="com.insumoskeij.appaksu.MainActivity">
 
     <!-- Toolbar -->
-    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/fondo_app"
-        app:popupTheme="@style/AppTheme.PopupOverlay" >
+        android:background="@drawable/fondo_app_toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,9 +20,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/aksu_icon" />
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="-40dp"
+                android:src="@drawable/logoaksunaranjaconsombra" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Aksu Global"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                     android:textColor="#fff" />
             </LinearLayout>

@@ -9,13 +9,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.Format;
+import java.text.Normalizer;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -28,7 +33,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class sendMail extends AppCompatActivity {
+public class SendMail extends AppCompatActivity {
 
     private EditText toEmailEditText;
     private EditText subjectEditText;
@@ -38,8 +43,8 @@ public class sendMail extends AppCompatActivity {
 
     /**CHANGE ACCORDINGLY**/
     private static final String SMTP_HOST_NAME = "smtp.gmail.com"; //can be your host server smtp@yourdomain.com
-    private static final String SMTP_AUTH_USER = "jhoanmchacon@gmail.com"; //your login username/email
-    private static final String SMTP_AUTH_PWD  = "jh04n2104"; //password/secret
+    private static final String SMTP_AUTH_USER = "appaksu@gmail.com"; //your login username/email
+    private static final String SMTP_AUTH_PWD  = "4pp4ksu2018"; //password/secret
 
     private static Message message;
 
@@ -74,20 +79,21 @@ public class sendMail extends AppCompatActivity {
         sendButton = findViewById(R.id.sendMessageButton);
         clearButton = findViewById(R.id.clearButton);
 
-
-        //listen to send button click
+               //listen to send button click
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 try {
 
-                    String to = toEmailEditText.getText().toString().trim();
+                    String to = "appaksu@gmail.com";
                     String from = toEmailEditText.getText().toString().trim();
                     String subject = subjectEditText.getText().toString();
-                    String message = messageEditText.getText().toString();
+                    String  message = "<strong><h1>Remitente:</strong> " + from + " <br><br> " +"<strong><h1>Mensaje:</strong> " + messageEditText.getText().toString();
+                    Html.fromHtml(message);
+                    Boolean emailValido = isEmailValid(to);
 
-                    if(to.isEmpty()){
+                    if(to.isEmpty() || emailValido == false){
                         //Toast.makeText(getBaseContext(), "Debe ingresar un correo electrónico.", Toast.LENGTH_LONG).show();
                         Snackbar.make(v, "Debe ingresar un correo electrónico.", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -103,6 +109,12 @@ public class sendMail extends AppCompatActivity {
                         //everything is filled out
                         //send email
                         sendEmail(to, from, subject, message);
+                        Snackbar.make(v, "Correo enviado.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        toEmailEditText.setText(null);
+                        subjectEditText.setText(null);
+                        messageEditText.setText(null);
+
                     }
 
                 } catch (Exception e) {
@@ -123,6 +135,20 @@ public class sendMail extends AppCompatActivity {
                 messageEditText.setText(null);
             }
         });
+    }
+
+    public static boolean isEmailValid(String email) {
+        boolean isValid = false;
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
     }
 
     public static void sendEmail(String to, String from, String subject, String msg){
@@ -201,6 +227,7 @@ public class sendMail extends AppCompatActivity {
                         // Send message
                         Transport.send(message);
                         System.out.println("Sent message successfully....");
+
 
                     } catch (Exception e) {
                         e.printStackTrace();

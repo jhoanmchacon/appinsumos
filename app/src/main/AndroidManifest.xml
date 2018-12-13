@@ -33,7 +33,7 @@
         <activity android:name=".ImagenDetalle" />
         <activity android:name=".DetalleActivity" />
         <activity android:name=".NoConnectActivity" />
-        <activity android:name=".sendMail"></activity>
+        <activity android:name=".SendMail"></activity>
     </application>
 
 </manifest>

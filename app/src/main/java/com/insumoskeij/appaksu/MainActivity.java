@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -167,6 +168,9 @@ public class MainActivity extends AppCompatActivity
         });*/
 
         FloatingActionButton fabSearch = findViewById(R.id.fabSearch);
+        fabSearch.setEnabled(false);
+        fabSearch.setClickable(false);
+        fabSearch.setAlpha(0.3f);
         fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,8 +192,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        FloatingActionButton clean = findViewById(R.id.fabClean);
-        clean.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabClean = findViewById(R.id.fabClean);
+        fabClean.setEnabled(false);
+        fabClean.setClickable(false);
+        fabClean.setAlpha(0.3f);
+        fabClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -266,6 +273,17 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 txtAgregarTprod = TprodList.get(i).getIdTipoProducto();
+                if (!txtAgregarTprod.isEmpty()) {
+                    FloatingActionButton fabSearch = findViewById(R.id.fabSearch);
+                    fabSearch.setEnabled(true);
+                    fabSearch.setClickable(true);
+                    fabSearch.setAlpha(1f);
+
+                    FloatingActionButton fabClean = findViewById(R.id.fabClean);
+                    fabClean.setEnabled(true);
+                    fabClean.setClickable(true);
+                    fabClean.setAlpha(1f);
+                }
             }
 
             @Override
@@ -305,6 +323,16 @@ public class MainActivity extends AppCompatActivity
                     tMotorCombo.setVisibility(View.GONE);
                     txtAgregarMotor="";
                     }
+
+                    FloatingActionButton fabSearch = findViewById(R.id.fabSearch);
+                    fabSearch.setEnabled(true);
+                    fabSearch.setClickable(true);
+                    fabSearch.setAlpha(1f);
+
+                    FloatingActionButton fabClean = findViewById(R.id.fabClean);
+                    fabClean.setEnabled(true);
+                    fabClean.setClickable(true);
+                    fabClean.setAlpha(1f);
                 }
             }
 
@@ -925,7 +953,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), ("¡Verifique su conexion !"), Toast.LENGTH_SHORT).show();
                //swipe.setRefreshing(false);
                 pDialog.dismiss();
             }
@@ -940,30 +968,7 @@ public class MainActivity extends AppCompatActivity
         //callData();
     }
 
-    protected void sendEmail() {
-        String[] TO = {"insumos.keij.ca@gmail.com"}; //aquí pon tu correo
-        String[] CC = {""};
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setData(Uri.parse("jhoanmchacon@gmail.com"));
-       // emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_CC, CC);
-// Esto podrás modificarlo si quieres, el asunto y el cuerpo del mensaje
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Asunto");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Escribe aquí tu mensaje");
-
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Enviar email..."));
-           // finish();
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this,
-                    "No tienes clientes de email instalados.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    @Override
+   @Override
     public boolean onQueryTextSubmit(String query) {
         if (!compruebaConexion(getApplicationContext()))
         {
@@ -995,6 +1000,7 @@ public class MainActivity extends AppCompatActivity
         searchView.setQueryHint(getString(R.string.Buscar));
         searchView.setIconified(true);
         searchView.setOnQueryTextListener(this);
+
 
         return true;
     }
@@ -1151,7 +1157,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), ("¡Verifique su conexion!"), Toast.LENGTH_SHORT).show();
 
 
                   pDialog.dismiss();
@@ -1267,7 +1273,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }else if (id == R.id.mail) {
-            Intent intent = new Intent(this, sendMail.class);
+            Intent intent = new Intent(this, SendMail.class);
             startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

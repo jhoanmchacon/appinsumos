@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
 
         videoView = findViewById(R.id.video);
 
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.tapa_aksu;
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.app_aksu;
 
         videoView.setVideoURI(Uri.parse(path));
         videoView.start();
@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
                 LogoLaucher logoLaucher = new LogoLaucher();
                 logoLaucher.start();
             }
-        }, 3500);//se debe colocar mínimo el tiempo de duración del video
+        }, 4000);//se debe colocar mínimo el tiempo de duración del video
 
     }
 
