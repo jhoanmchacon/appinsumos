@@ -22,6 +22,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -29,7 +30,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
 
 
     /*****Combo TIPO PRODUCTO****/
-    private ImageView imgLogo;
+    private TextView txtEslogan;
     private Spinner spTipoProducto;
     private TextView tTipoProdCombo;
     private ArrayList<TipoProducto> TprodList;
@@ -144,28 +144,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /*imgLogoMenu = findViewById(R.id.imgLogoMenu);
-        imgLogoMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("https://www.aksuglobal.com");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-        });*/
-
-
-
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                /*sendEmail();
-            }
-        });*/
 
         FloatingActionButton fabSearch = findViewById(R.id.fabSearch);
         fabSearch.setEnabled(false);
@@ -243,6 +221,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        txtEslogan = findViewById(R.id.txtEslogan);
+        txtEslogan.setText(Html.fromHtml("<P ALIGN=\"right\">Bienvenido a nuestro buscador, donde encontrará un completo repertorio de los productos que ofrecemos para el cuidado de tu vehículo</P>"));
+
 
         //swipe = findViewById(R.id.swipe_refresh);
 
@@ -788,13 +770,13 @@ public class MainActivity extends AppCompatActivity
     private void callData() {
         tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
         tMarcaCombo = findViewById(R.id.tMarcaCombo);
-        imgLogo = findViewById(R.id.imgLogo);
+        txtEslogan = findViewById(R.id.txtEslogan);
 
         tTipoProdCombo.setVisibility(View.GONE);
         spTipoProducto.setVisibility(View.GONE);
         tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
-       // imgLogo.setVisibility(View.GONE);
+        txtEslogan.setVisibility(View.GONE);
 
 
         if (spModelo.getVisibility()==View.VISIBLE ){
@@ -920,7 +902,7 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
-                      //  imgLogo.setVisibility(View.VISIBLE);
+                        txtEslogan.setVisibility(View.VISIBLE);
 
                         if (!txtAgregarModelo.isEmpty()){
                             spModelo.setVisibility(View.VISIBLE);
@@ -1006,9 +988,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void cariData(final String keyword) {
+
+        FloatingActionButton fabClean = findViewById(R.id.fabClean);
+        fabClean.setEnabled(true);
+        fabClean.setClickable(true);
+        fabClean.setAlpha(1f);
+
         tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
         tMarcaCombo = findViewById(R.id.tMarcaCombo);
-        imgLogo = findViewById(R.id.imgLogo);
+        txtEslogan = findViewById(R.id.txtEslogan);
 
         tTipoProdCombo.setVisibility(View.GONE);
         spTipoProducto.setVisibility(View.GONE);
@@ -1019,7 +1007,7 @@ public class MainActivity extends AppCompatActivity
         spTipoProducto.setVisibility(View.GONE);
         tMarcaCombo.setVisibility(View.GONE);
         spMarca.setVisibility(View.GONE);
-       // imgLogo.setVisibility(View.GONE);
+        txtEslogan.setVisibility(View.GONE);
 
 
         if (spModelo.getVisibility()==View.VISIBLE ){
@@ -1139,7 +1127,7 @@ public class MainActivity extends AppCompatActivity
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
                         spMarca.setVisibility(View.VISIBLE);
-                       // imgLogo.setVisibility(View.VISIBLE);
+                        txtEslogan.setVisibility(View.VISIBLE);
                         //btnBuscar.setVisibility(View.VISIBLE);
                         list_view.setVisibility(View.GONE);
                     }
@@ -1198,6 +1186,15 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
+            FloatingActionButton fabClean = findViewById(R.id.fabClean);
+            fabClean.setEnabled(false);
+            fabClean.setClickable(false);
+            fabClean.setAlpha(0.3f);
+
+            FloatingActionButton fabSearch = findViewById(R.id.fabSearch);
+            fabSearch.setEnabled(false);
+            fabSearch.setClickable(false);
+            fabSearch.setAlpha(0.3f);
             return true;
         }
         System.out.println("flecha: " +id);
@@ -1224,7 +1221,7 @@ public class MainActivity extends AppCompatActivity
             spTipoProducto.setVisibility(View.VISIBLE);
             tMarcaCombo.setVisibility(View.VISIBLE);
             spMarca.setVisibility(View.VISIBLE);
-           // imgLogo.setVisibility(View.VISIBLE);
+            txtEslogan.setVisibility(View.VISIBLE);
 
             if (spModelo.getVisibility()==View.VISIBLE ){
                 tModeloCombo.setVisibility(View.GONE);

@@ -89,13 +89,17 @@ public class SendMail extends AppCompatActivity {
                     String to = "appaksu@gmail.com";
                     String from = toEmailEditText.getText().toString().trim();
                     String subject = subjectEditText.getText().toString();
-                    String  message = "<strong><h1>Remitente:</strong> " + from + " <br><br> " +"<strong><h1>Mensaje:</strong> " + messageEditText.getText().toString();
-                    Html.fromHtml(message);
-                    Boolean emailValido = isEmailValid(to);
+                    String  message = messageEditText.getText().toString();
 
-                    if(to.isEmpty() || emailValido == false){
+                    Boolean emailValido = isEmailValid(from);
+
+                    if(from.isEmpty()){
                         //Toast.makeText(getBaseContext(), "Debe ingresar un correo electrónico.", Toast.LENGTH_LONG).show();
                         Snackbar.make(v, "Debe ingresar un correo electrónico.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }else if(emailValido == false){
+                        //Toast.makeText(getBaseContext(), "Debe ingresar un correo electrónico.", Toast.LENGTH_LONG).show();
+                        Snackbar.make(v, "Correo electrónico invalido .", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }else if(subject.isEmpty()){
                         //Toast.makeText(getBaseContext(), "Debe ingresar un Asunto.", Toast.LENGTH_LONG).show();
@@ -108,6 +112,8 @@ public class SendMail extends AppCompatActivity {
                     }else {
                         //everything is filled out
                         //send email
+                        message = "<strong><h1>Remitente:</strong> " + from + " <br><br> " +"<strong><h1>Mensaje:</strong> " + messageEditText.getText().toString();
+                        Html.fromHtml(message);
                         sendEmail(to, from, subject, message);
                         Snackbar.make(v, "Correo enviado.", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();

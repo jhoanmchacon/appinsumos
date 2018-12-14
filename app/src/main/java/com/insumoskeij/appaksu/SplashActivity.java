@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
 
         videoView = findViewById(R.id.video);
 
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.app_aksu;
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.tapa_appaksu_motor;
 
         videoView.setVideoURI(Uri.parse(path));
         videoView.start();

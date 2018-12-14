@@ -32,20 +32,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
-        <ImageView
-            android:id="@+id/imgLogo"
+        <TextView
+            android:id="@+id/txtEslogan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:visibility="visible"></ImageView>
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/tTipoProdCombo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgLogo"
+            android:layout_below="@+id/txtEslogan"
             android:layout_marginLeft="10dp"
             android:text="TIPO DE PRODUCTO"
             android:textColor="#ffffff"
