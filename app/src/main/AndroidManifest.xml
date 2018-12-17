@@ -34,7 +34,7 @@
         <activity android:name=".DetalleActivity" />
         <activity android:name=".NoConnectActivity" />
         <activity android:name=".SendMailActivity" />
-        <activity android:name=".AcercaActivity"></activity>
+        <activity android:name=".AboutActivity"/>
     </application>
 
 </manifest>

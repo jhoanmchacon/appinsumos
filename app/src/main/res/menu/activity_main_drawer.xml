@@ -36,9 +36,9 @@
                 android:icon="@drawable/ic_sms_black_24dp"
                 android:title="Contáctanos" />
             <item
-                android:id="@+id/acerca"
-                android:icon="@drawable/ic_info_outline_black_24dp"
-                android:title="Acerca" />
+                android:id="@+id/about"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="Info. de la aplicación" />
         </menu>
     </item>
 

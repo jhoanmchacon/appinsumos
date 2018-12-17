@@ -39,6 +39,7 @@
     <string name="hint_Modelo">Modelo</string>
     <string name="hint_Annos">Años</string>
     <string name="hint_Motor">Motor</string>
+    <string name="title_activity_about">AboutActivity</string>
 
 
 </resources>
