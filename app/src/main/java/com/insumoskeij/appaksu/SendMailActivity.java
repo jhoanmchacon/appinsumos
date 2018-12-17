@@ -90,7 +90,7 @@ public class SendMailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    final String to = "appaksu@gmail.com";
+                    final String to = "inversiones.aksu@gmail.com";
                     final String from = toEmailEditText.getText().toString().trim();
                     final String subject = subjectEditText.getText().toString().trim();
                     final String message = messageEditText.getText().toString().trim();
