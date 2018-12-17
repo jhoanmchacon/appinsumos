@@ -1332,6 +1332,9 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.mail) {
             Intent intent = new Intent(this, SendMailActivity.class);
             startActivity(intent);
+        }else if (id == R.id.acerca) {
+            Intent intent = new Intent(this, AcercaActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

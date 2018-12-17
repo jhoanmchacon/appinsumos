@@ -18,7 +18,7 @@
         android:layout_height="80dp"
         android:layout_gravity="bottom|left"
         android:contentDescription="@string/nav_header_desc"
-        android:src="@drawable/logoaksunaranjaconsombra"
+        android:src="@drawable/logo_aksu_blanco"
         android:clickable="true"
         android:onClick="imageClick"/>
 
@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/nav_header_subtitle"
-        android:textColor="#fff"/>
+        android:textColor="#fff"
+        android:onClick="imageClick"/>
 
 </LinearLayout>
