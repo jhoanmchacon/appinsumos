@@ -1,8 +1,16 @@
 package com.insumoskeij.appaksu;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -14,10 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import java.text.Format;
-import java.text.Normalizer;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,13 +38,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class SendMail extends AppCompatActivity {
+public class SendMailActivity extends AppCompatActivity {
 
     private EditText toEmailEditText;
     private EditText subjectEditText;
     private EditText messageEditText;
     private Button sendButton;
     private Button clearButton;
+    private Handler mHandler = new Handler();
 
     /**CHANGE ACCORDINGLY**/
     private static final String SMTP_HOST_NAME = "smtp.gmail.com"; //can be your host server smtp@yourdomain.com
@@ -83,13 +89,11 @@ public class SendMail extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
-
-                    String to = "appaksu@gmail.com";
-                    String from = toEmailEditText.getText().toString().trim();
-                    String subject = subjectEditText.getText().toString();
-                    String  message = messageEditText.getText().toString();
+                    final String to = "appaksu@gmail.com";
+                    final String from = toEmailEditText.getText().toString().trim();
+                    final String subject = subjectEditText.getText().toString().trim();
+                    final String message = messageEditText.getText().toString().trim();
 
                     Boolean emailValido = isEmailValid(from);
 
@@ -97,48 +101,75 @@ public class SendMail extends AppCompatActivity {
                         //Toast.makeText(getBaseContext(), "Debe ingresar un correo electrónico.", Toast.LENGTH_LONG).show();
                         Snackbar.make(v, "Debe ingresar un correo electrónico.", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
-                    }else if(emailValido == false){
+                    }else if(!emailValido){
                         //Toast.makeText(getBaseContext(), "Debe ingresar un correo electrónico.", Toast.LENGTH_LONG).show();
-                        Snackbar.make(v, "Correo electrónico invalido .", Snackbar.LENGTH_LONG)
+                        Snackbar.make(v, "Debe ingresar un correo electrónico válido.", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }else if(subject.isEmpty()){
                         //Toast.makeText(getBaseContext(), "Debe ingresar un Asunto.", Toast.LENGTH_LONG).show();
-                        Snackbar.make(v, "Debe ingresar un Asunto.", Snackbar.LENGTH_LONG)
+                        Snackbar.make(v, "Debe ingresar un asunto.", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }else if(message.isEmpty()){
                         //Toast.makeText(getBaseContext(), "Debe introducir un mensaje.", Toast.LENGTH_LONG).show();
                         Snackbar.make(v, "Debe introducir un mensaje.", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }else {
-                        //everything is filled out
-                        //send email
-                        message = "<strong><h1>Remitente:</strong> " + from + " <br><br> " +"<strong><h1>Mensaje:</strong> " + messageEditText.getText().toString();
-                        Html.fromHtml(message);
-                        sendEmail(to, from, subject, message);
-                        Snackbar.make(v, "Correo enviado.", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        toEmailEditText.setText(null);
-                        subjectEditText.setText(null);
-                        messageEditText.setText(null);
+                        if (!compruebaConexion(getApplicationContext()))
+                        {
+                            Snackbar.make(v, "¡No hay conexión a internet!", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }else {
+
+                            new AlertDialog.Builder(SendMailActivity.this)
+                                    .setTitle("AKSU GLOBAL")
+                                    .setIcon(R.drawable.aksu_icon)
+                                    .setMessage("¿Desea enviar éste mensaje?")
+                                    .setNegativeButton(android.R.string.cancel, null)// sin listener
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {// Salir
+                                            //everything is filled out
+                                            //send email
+                                            String messageBody = "<strong><h1>Remitente:</strong> " + from + " <br><br> " + "<strong><h1>Mensaje:</strong> <br><br>" + message;
+                                            Html.fromHtml(messageBody);
+                                            sendEmail(to, from, subject, messageBody);
+                                            //toEmailEditText.setText(null);
+                                            //subjectEditText.setText(null);
+                                            //messageEditText.setText(null);
+                                            sendButton.setEnabled(false);
+                                            sendButton.setClickable(false);
+                                        }
+                                    }).show();
+                        }
 
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
 
                 }
-
-
             }
-
         });
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toEmailEditText.setText(null);
-                subjectEditText.setText(null);
-                messageEditText.setText(null);
+                new AlertDialog.Builder(SendMailActivity.this)
+                        .setTitle("AKSU GLOBAL")
+                        .setIcon(R.drawable.aksu_icon)
+                        .setMessage("¿Desea limpiar el formulario?")
+                        .setNegativeButton(android.R.string.cancel, null)// sin listener
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {// Salir
+                                //toEmailEditText.setText(null);
+                                //subjectEditText.setText(null);
+                                //messageEditText.setText(null);
+
+                                Intent intent = new Intent(SendMailActivity.this, SendMailActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).show();
             }
         });
     }
@@ -157,7 +188,11 @@ public class SendMail extends AppCompatActivity {
         return isValid;
     }
 
-    public static void sendEmail(String to, String from, String subject, String msg){
+    public void sendEmail(String to, String from, String subject, String msg){
+        final ProgressDialog pDialog = new ProgressDialog(SendMailActivity.this);
+        pDialog.setCancelable(false);
+        pDialog.setMessage("Enviando...");
+        pDialog.show();
         // Recipient's email ID needs to be mentioned.
 
         // Sender's email ID needs to be mentioned
@@ -234,10 +269,36 @@ public class SendMail extends AppCompatActivity {
                         Transport.send(message);
                         System.out.println("Sent message successfully....");
 
+                        pDialog.dismiss();
+                        View listview = findViewById(R.id.send_view);
+                        Snackbar.make(listview.getRootView(), "Mensaje enviado con éxito.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+
+                        //Intent intent = new Intent(SendMailActivity.this, SendMailActivity.class);
+                        //startActivity(intent);
+                        //finish();
+                        mHandler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent intent = new Intent(SendMailActivity.this, SendMailActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 3500);
 
                     } catch (Exception e) {
                         e.printStackTrace();
+                        pDialog.dismiss();
+                        View listview = findViewById(R.id.send_view);
+                        Snackbar.make(listview.getRootView(), "Ocurrió un error al intentar enviar el mensaje. Intente más tarde.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
 
+                        mHandler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent intent = new Intent(SendMailActivity.this, SendMailActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 3500);
                     }
                 }
             });
@@ -248,6 +309,24 @@ public class SendMail extends AppCompatActivity {
             throw new RuntimeException(e);
         }
     }
+    private boolean compruebaConexion(Context applicationContext) {
+
+        boolean connected = false;
+        ConnectivityManager connec = (ConnectivityManager) applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

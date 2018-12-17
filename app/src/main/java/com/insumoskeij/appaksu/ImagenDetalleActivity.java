@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.github.chrisbanes.photoview.PhotoView;
 
 
-public class ImagenDetalle extends AppCompatActivity {
+public class ImagenDetalleActivity extends AppCompatActivity {
 
 
     private ImageView imagenExtendida;

@@ -34,7 +34,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -223,7 +222,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         txtEslogan = findViewById(R.id.txtEslogan);
-        txtEslogan.setText(Html.fromHtml("<P ALIGN=\"right\">Bienvenido a nuestro buscador, donde encontrará un completo repertorio de los productos que ofrecemos para el cuidado de tu vehículo</P>"));
+        txtEslogan.setText(Html.fromHtml("<P ALIGN=\"right\">Bienvenido a nuestro buscador, donde encontrará un completo repertorio de los productos que ofrecemos para el cuidado de su vehículo.</P>"));
 
 
         //swipe = findViewById(R.id.swipe_refresh);
@@ -593,36 +592,54 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22", ServiceHandler.GET);
-            System.out.println("urlllll" + "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22");
-            Log.e("Response: ", "> " + json);
+            if (!compruebaConexion(getApplicationContext()))
+            {
+                Snackbar.make(list_view.getRootView(), "¡No hay conexión a internet!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                Modelo cat = new Modelo("", "Seleccione");
+                ModeloList.add(cat);
+                txtAgregarModelo = "";
+                //return null;
+            }
+            else
+            {
+                ServiceHandler jsonParser = new ServiceHandler();
+                String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22", ServiceHandler.GET);
+                System.out.println("urlllll" + "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMModelo.php?opc=1&marca=" + txtAgregarMarca + "&serie=%22%22");
+                Log.e("Response: ", "> " + json);
 
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null ) {
-                        JSONArray modelos = jsonObj.getJSONArray("data");
-                        int i = 0;
-                        ModeloList.clear();
-                        for ( i = 0; i < modelos.length(); i++) {
-                            JSONObject catObj = (JSONObject) modelos.get(i);
-                            //System.out.println(catObj);
-                            Modelo cat = new Modelo(catObj.getString("id"), catObj.getString("desc"));
-                            //System.out.println(cat);
-                            ModeloList.add(cat);
+                if (json != null) {
+                    try {
+                        JSONObject jsonObj = new JSONObject(json);
+                        if (jsonObj != null) {
+                            JSONArray modelos = jsonObj.getJSONArray("data");
+                            int i = 0;
+                            ModeloList.clear();
+                            for (i = 0; i < modelos.length(); i++) {
+                                JSONObject catObj = (JSONObject) modelos.get(i);
+                                //System.out.println(catObj);
+                                Modelo cat = new Modelo(catObj.getString("id"), catObj.getString("desc"));
+                                //System.out.println(cat);
+                                ModeloList.add(cat);
+                            }
+                            if (i == 0) {
+                                //Modelo cat = new Modelo(" ", "no se");
+                                //System.out.println(cat);
+                                //ModeloList.add(cat);
+                                Modelo cat = new Modelo("", "Seleccione");
+                                ModeloList.add(cat);
+                                txtAgregarModelo = "";
+                            }
                         }
-                        if (i==0){
-                            Modelo cat = new Modelo(" ", "no se");
-                            //System.out.println(cat);
-                            ModeloList.add(cat);
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+                    Modelo cat = new Modelo("", "Seleccione");
+                    ModeloList.add(cat);
+                    txtAgregarModelo = "";
                 }
-            } else {
-                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
             }
             return null;
         }
@@ -660,36 +677,54 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMAnno.php?opc=1&marca=" + txtAgregarMarca + "&modelo=" +txtAgregarModelo, ServiceHandler.GET);
-            System.out.println("urlllll" + "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMAnno.php?opc=1&marca=" + txtAgregarMarca + "&modelo=" +txtAgregarModelo);
-            Log.e("Response: ", "> " + json);
+            if (!compruebaConexion(getApplicationContext()))
+            {
+                Snackbar.make(list_view.getRootView(), "¡No hay conexión a internet!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                Anno cat = new Anno("", "Seleccione");
+                AnnoList.add(cat);
+                txtAgregarAnno = "";
+                //return null;
+            }
+            else
+            {
+                ServiceHandler jsonParser = new ServiceHandler();
+                String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMAnno.php?opc=1&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo, ServiceHandler.GET);
+                System.out.println("urlllll" + "http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMAnno.php?opc=1&marca=" + txtAgregarMarca + "&modelo=" + txtAgregarModelo);
+                Log.e("Response: ", "> " + json);
 
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null ) {
-                        JSONArray annos = jsonObj.getJSONArray("data");
-                        int i = 0;
-                        AnnoList.clear();
-                        for ( i = 0; i < annos.length(); i++) {
-                            JSONObject catObj = (JSONObject) annos.get(i);
-                            //System.out.println(catObj);
-                            Anno cat = new Anno(catObj.getString("id"),catObj.getString("desc"));
-                            //System.out.println(cat);
-                            AnnoList.add(cat);
+                if (json != null) {
+                    try {
+                        JSONObject jsonObj = new JSONObject(json);
+                        if (jsonObj != null) {
+                            JSONArray annos = jsonObj.getJSONArray("data");
+                            int i = 0;
+                            AnnoList.clear();
+                            for (i = 0; i < annos.length(); i++) {
+                                JSONObject catObj = (JSONObject) annos.get(i);
+                                //System.out.println(catObj);
+                                Anno cat = new Anno(catObj.getString("id"), catObj.getString("desc"));
+                                //System.out.println(cat);
+                                AnnoList.add(cat);
+                            }
+                            if (i == 0) {
+                                //Anno cat = new Anno(" ", " ");
+                                //System.out.println(cat);
+                                //AnnoList.add(cat);
+                                Anno cat = new Anno("", "Seleccione");
+                                AnnoList.add(cat);
+                                txtAgregarAnno = "";
+                            }
                         }
-                        if (i==0){
-                            Anno cat = new Anno(" "," ");
-                            //System.out.println(cat);
-                            AnnoList.add(cat);
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+                    Anno cat = new Anno("", "Seleccione");
+                    AnnoList.add(cat);
+                    txtAgregarAnno = "";
                 }
-            } else {
-                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
             }
             return null;
         }
@@ -723,34 +758,52 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            ServiceHandler jsonParser = new ServiceHandler();
-            String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMMotor.php?opc=1&modelo=" + txtAgregarModelo + "&annos="+txtAgregarAnno.replace(" ","%20"), ServiceHandler.GET);
-            Log.e("Response: ", "> " + json);
-            if (json != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(json);
-                    if (jsonObj != null) {
-                        JSONArray motor = jsonObj.getJSONArray("data");
-                        MotorList.clear();
-                        int i = 0;
-                        for (i = 0; i < motor.length(); i++) {
-                            JSONObject catObj = (JSONObject) motor.get(i);
-                            //System.out.println(catObj);
-                            Motor cat = new Motor(catObj.getString("id"), catObj.getString("desc"));
-                            //System.out.println(cat);
-                            MotorList.add(cat);
+            if (!compruebaConexion(getApplicationContext()))
+            {
+                Snackbar.make(list_view.getRootView(), "¡No hay conexión a internet!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                Motor cat = new Motor("", "Seleccione");
+                MotorList.add(cat);
+                txtAgregarMotor = "";
+                //return null;
+            }
+            else
+            {
+                ServiceHandler jsonParser = new ServiceHandler();
+                String json = jsonParser.makeServiceCall("http://aksuglobal.com/catalogo_aksu/aksuapp/controlador_app/controlMMotor.php?opc=1&modelo=" + txtAgregarModelo + "&annos=" + txtAgregarAnno.replace(" ", "%20"), ServiceHandler.GET);
+                Log.e("Response: ", "> " + json);
+                if (json != null) {
+                    try {
+                        JSONObject jsonObj = new JSONObject(json);
+                        if (jsonObj != null) {
+                            JSONArray motor = jsonObj.getJSONArray("data");
+                            MotorList.clear();
+                            int i = 0;
+                            for (i = 0; i < motor.length(); i++) {
+                                JSONObject catObj = (JSONObject) motor.get(i);
+                                //System.out.println(catObj);
+                                Motor cat = new Motor(catObj.getString("id"), catObj.getString("desc"));
+                                //System.out.println(cat);
+                                MotorList.add(cat);
+                            }
+                            if (i == 0) {
+                                //Motor cat = new Motor(" ", "no se");
+                                //System.out.println(cat);
+                                //MotorList.add(cat);
+                                Motor cat = new Motor("", "Seleccione");
+                                MotorList.add(cat);
+                                txtAgregarMotor = "";
+                            }
                         }
-                        if (i==0){
-                            Motor cat = new Motor(" ", "no se");
-                            //System.out.println(cat);
-                            MotorList.add(cat);
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
+                    Motor cat = new Motor("", "Seleccione");
+                    MotorList.add(cat);
+                    txtAgregarMotor = "";
                 }
-            } else {
-                Log.e("JSON Data", "¿No ha recibido ningún dato desde el servidor!");
             }
             return null;
         }
@@ -897,7 +950,9 @@ public class MainActivity extends AppCompatActivity
                         }
 
                     } else {
-                        Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(list_view.getRootView(), "¡No hay datos disponibles!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                         tTipoProdCombo.setVisibility(View.VISIBLE);
                         spTipoProducto.setVisibility(View.VISIBLE);
                         tMarcaCombo.setVisibility(View.VISIBLE);
@@ -935,7 +990,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), ("¡Verifique su conexion !"), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), ("¡Verifique su conexion !"), Toast.LENGTH_SHORT).show();
+                Snackbar.make(list_view.getRootView(), "¡Verifique su conexion!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                //swipe.setRefreshing(false);
                 pDialog.dismiss();
             }
@@ -1121,7 +1178,9 @@ public class MainActivity extends AppCompatActivity
                         }
 
                     } else {
-                        Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), ("¡No hay datos disponibles!"), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(list_view.getRootView(), "¡No hay datos disponibles!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                         pDialog.dismiss();
                         tTipoProdCombo.setVisibility(View.VISIBLE);
                         spTipoProducto.setVisibility(View.VISIBLE);
@@ -1145,8 +1204,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), ("¡Verifique su conexion!"), Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(getApplicationContext(), ("¡Verifique su conexion!"), Toast.LENGTH_SHORT).show();
+                Snackbar.make(list_view.getRootView(), "¡Verifique su conexion!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
 
                   pDialog.dismiss();
             }
@@ -1270,7 +1330,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }else if (id == R.id.mail) {
-            Intent intent = new Intent(this, SendMail.class);
+            Intent intent = new Intent(this, SendMailActivity.class);
             startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

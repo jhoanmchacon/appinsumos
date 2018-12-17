@@ -30,10 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ImagenDetalle" />
+        <activity android:name=".ImagenDetalleActivity" />
         <activity android:name=".DetalleActivity" />
         <activity android:name=".NoConnectActivity" />
-        <activity android:name=".SendMail"></activity>
+        <activity android:name=".SendMailActivity"></activity>
     </application>
 
 </manifest>

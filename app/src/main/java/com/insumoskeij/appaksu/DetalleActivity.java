@@ -1,12 +1,9 @@
 package com.insumoskeij.appaksu;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 
 public class DetalleActivity extends AppCompatActivity {
 
@@ -267,7 +263,7 @@ public class DetalleActivity extends AppCompatActivity {
 
         //Toast.makeText(this,"sssssssssss "+ rutaImgProd, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(DetalleActivity.this, ImagenDetalle.class);
+        Intent intent = new Intent(DetalleActivity.this, ImagenDetalleActivity.class);
         //System.out.println("qqq2 "+rutaImgProd);
         intent.putExtra("CPROD", cprod);
         intent.putExtra("TPROD", tprod);
@@ -278,7 +274,7 @@ public class DetalleActivity extends AppCompatActivity {
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                             this,
                             new Pair<View, String>(view.findViewById(R.id.imgProd),
-                                    ImagenDetalle.VIEW_NAME_HEADER_IMAGE)
+                                    ImagenDetalleActivity.VIEW_NAME_HEADER_IMAGE)
                     );
 
             ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
