@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -47,7 +49,11 @@ public class AboutActivity extends AppCompatActivity {
         version.setText("Versión " + BuildConfig.VERSION_NAME);
 
         TextView footer = findViewById(R.id.footer);
-        footer.setText("Desarrollado por KEIJ-TECH para Inversiones AKSU, C.A.");
+        //footer.setText("Desarrollado por KEIJ-TECH para Inversiones AKSU, C.A.");
+
+        //footer.setText(Html.fromHtml("<strong>Desarrollado por <a href=\"http://www.keij-tech.com\" target=\"_blank\">KEIJ-TECH</a> para Inversiones AKSU, C.A.</strong>"));
+        footer.setText(Html.fromHtml("<strong>Desarrollado por <a href=\"insumos.keij.ca@gmail.com\" target=\"_blank\">KEIJ-TECH</a> para Inversiones AKSU, C.A.</strong>"));
+        footer.setMovementMethod(LinkMovementMethod.getInstance());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
         Date date = new Date();
