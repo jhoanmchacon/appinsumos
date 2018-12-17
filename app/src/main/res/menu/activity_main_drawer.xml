@@ -5,7 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/BusquedaPersonalisada"
+            android:id="@+id/BusquedaPersonalizada"
             android:icon="@drawable/ic_search_black_24dp"
             android:title="Búsqueda Personalizada" />
         <!--<item
@@ -35,6 +35,10 @@
                 android:id="@+id/mail"
                 android:icon="@drawable/ic_sms_black_24dp"
                 android:title="Contáctanos" />
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="Info. de la aplicación" />
         </menu>
     </item>
 

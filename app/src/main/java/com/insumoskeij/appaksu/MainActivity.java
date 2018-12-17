@@ -3,6 +3,7 @@ package com.insumoskeij.appaksu;
 
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -1271,7 +1272,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.BusquedaPersonalisada) {
+        if (id == R.id.BusquedaPersonalizada) {
             new GetTproducto().execute();
             new GetMarca().execute();
             tTipoProdCombo = findViewById(R.id.tTipoProdCombo);
@@ -1331,6 +1332,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }else if (id == R.id.mail) {
             Intent intent = new Intent(this, SendMailActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.about) {
+            Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
