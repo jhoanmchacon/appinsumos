@@ -60,7 +60,7 @@ public class AboutActivity extends AppCompatActivity {
         String fecha = dateFormat.format(date);
 
         TextView copy = findViewById(R.id.copy);
-        copy.setText("\u00a9 "+fecha+". Todos los Derechos Reservados.");
+        copy.setText("J-31630694-1.  \u00a9 "+fecha+". Todos los Derechos Reservados.");
 
     }
 
