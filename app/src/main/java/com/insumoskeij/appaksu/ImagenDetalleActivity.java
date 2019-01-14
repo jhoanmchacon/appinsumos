@@ -52,15 +52,13 @@ public class ImagenDetalleActivity extends AppCompatActivity {
 
 
         Intent i = this.getIntent();
-        //usarToolbar();
 
         // Obtener el coche con el identificador establecido en la actividad principal
         //itemDetallado = Producto.getItem(getIntent().getIntExtra(EXTRA_PARAM_ID, 0));
 
 
         String rutaImgProd = i.getExtras().getString("IMG");
-        String tprod = i.getExtras().getString("TPROD");
-        String cprod = i.getExtras().getString("CPROD");
+
 
 
         imagenExtendida =  findViewById(R.id.imagen_extendida);

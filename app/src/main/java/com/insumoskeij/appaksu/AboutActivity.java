@@ -52,7 +52,9 @@ public class AboutActivity extends AppCompatActivity {
         //footer.setText("Desarrollado por KEIJ-TECH para Inversiones AKSU, C.A.");
 
         //footer.setText(Html.fromHtml("<strong>Desarrollado por <a href=\"http://www.keij-tech.com\" target=\"_blank\">KEIJ-TECH</a> para Inversiones AKSU, C.A.</strong>"));
-        footer.setText(Html.fromHtml("<strong>Desarrollado por <a href=\"mailto:insumos.keij.ca@gmail.com\" target=\"_blank\">KEIJ-TECH</a> para Inversiones AKSU, C.A. J-31630694-1.</strong>"));
+        footer.setText(Html.fromHtml("<strong>Desarrollado por <a href=\"mailto:insumos.keij.ca@gmail.com\" target=\"_blank\">KEIJ-TECH</a> para Inversiones AKSU, C.A. J-31630694-1." +
+                "" +
+                "</strong>"));
         footer.setMovementMethod(LinkMovementMethod.getInstance());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
